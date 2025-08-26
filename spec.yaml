@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: Rider Coupon API
+  version: 1.0.0
+  description: API for managing rider coupons (mocked using Prism)
+
+servers:
+  - url: http://localhost:4010
+
+paths:
+  /rider-coupons/{riderId}:
+    get:
+      summary: Get coupons used by a rider
+      parameters:
+        - name: riderId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Rider identifier
+        - name: couponId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Coupon identifier
+      responses:
+        '200':
+          description: Successful response with coupon usage count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  riderId:
+                    type: string
+                  couponId:
+                    type: string
+                  usageCount:
+                    type: integer
+              example:
+                riderId: "rider123"
+                couponId: "64f8c8c5d3d1b2a1c9a12345"
+                usageCount: 3
+        '404':
+          description: Rider or coupon not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "Rider or coupon not found"
