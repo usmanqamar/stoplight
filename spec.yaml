@@ -7,10 +7,19 @@ info:
 servers:
   - url: http://localhost:4010
 
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # optional, for documentation
+
 paths:
   /rider-coupons/{riderId}:
     get:
       summary: Get coupons used by a rider
+      security:
+        - bearerAuth: []
       parameters:
         - name: riderId
           in: path
@@ -38,18 +47,81 @@ paths:
                     type: string
                   usageCount:
                     type: integer
+              examples:
+                few-uses:
+                  summary: Rider used coupon a few times
+                  value:
+                    riderId: "rider123"
+                    couponId: "64f8c8c5d3d1b2a1c9a12345"
+                    usageCount: 2
+                many-uses:
+                  summary: Rider used coupon many times
+                  value:
+                    riderId: "rider123"
+                    couponId: "64f8c8c5d3d1b2a1c9a12345"
+                    usageCount: 10
+        '401':
+          description: Missing or invalid Authorization header
+          content:
+            application/json:
               example:
-                riderId: "rider123"
-                couponId: "64f8c8c5d3d1b2a1c9a12345"
-                usageCount: 3
-        '404':
-          description: Rider or coupon not found
+                error: "Unauthorized"
+
+    post:
+      summary: Apply a coupon for a rider
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: riderId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Rider identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - couponId
+              properties:
+                couponId:
+                  type: string
+                  description: The coupon being applied
+            examples:
+              valid:
+                summary: Apply valid coupon
+                value:
+                  couponId: "64f8c8c5d3d1b2a1c9a12345"
+      responses:
+        '201':
+          description: Coupon successfully applied
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error:
+                  riderId:
                     type: string
+                  couponId:
+                    type: string
+                  applied:
+                    type: boolean
               example:
-                error: "Rider or coupon not found"
+                riderId: "rider123"
+                couponId: "64f8c8c5d3d1b2a1c9a12345"
+                applied: true
+        '400':
+          description: Invalid coupon or already used
+          content:
+            application/json:
+              example:
+                error: "Coupon is invalid or already used"
+        '401':
+          description: Missing or invalid Authorization header
+          content:
+            application/json:
+              example:
+                error: "Unauthorized"
