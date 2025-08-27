@@ -53,7 +53,7 @@ paths:
                   value:
                     riderId: "rider123"
                     couponId: "64f8c8c5d3d1b2a1c9a12345"
-                    usageCount: 3
+                    usageCount: 4
                 many-uses:
                   summary: Rider used coupon many times
                   value:
