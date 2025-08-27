@@ -53,13 +53,13 @@ paths:
                   value:
                     riderId: "rider123"
                     couponId: "64f8c8c5d3d1b2a1c9a12345"
-                    usageCount: 2
+                    usageCount: 3
                 many-uses:
                   summary: Rider used coupon many times
                   value:
                     riderId: "rider123"
                     couponId: "64f8c8c5d3d1b2a1c9a12345"
-                    usageCount: 11
+                    usageCount: 12
         '401':
           description: Missing or invalid Authorization header
           content:
