@@ -15,113 +15,163 @@ components:
       bearerFormat: JWT  # optional, for documentation
 
 paths:
-  /rider-coupons/{riderId}:
+  /intercity/v1/pickup:
     get:
-      summary: Get coupons used by a rider
+      summary: Get list of pickups configured
+      parameters:
+        - in: header
+          name: yassir-app-language
+          required: false
+          schema:
+            type: string
+          description: Preferred language for the response (e.g. en, fr, ar)
       security:
         - bearerAuth: []
-      parameters:
-        - name: riderId
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Rider identifier
-        - name: couponId
-          in: query
-          required: true
-          schema:
-            type: string
-          description: Coupon identifier
       responses:
         '200':
-          description: Successful response with coupon usage count
+          description: Successful response with pickup list
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  riderId:
-                    type: string
-                  couponId:
-                    type: string
-                  usageCount:
-                    type: integer
+                  status:
+                    type: boolean
+                  data:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Object Id
+                        code:
+                          type: string
+                          description: Optional string
+                        name:
+                          type: string
+                          description: App language based
+                        path:
+                          type: string
+                          description: Path string
               examples:
-                few-uses:
-                  summary: Rider used coupon a few times
+                pickup:
+                  summary: Example with data
                   value:
-                    riderId: "rider123"
-                    couponId: "64f8c8c5d3d1b2a1c9a12345"
-                    usageCount: 4
-                many-uses:
-                  summary: Rider used coupon many times
+                    status: true
+                    data:
+                      - id: "123456788"
+                        code: "11"
+                        name: "Blida"
+                        path: "0,192756,1258647"
+                      - id: "123456788"
+                        code: "12"
+                        name: "Oran"
+                        path: "0,192756,1258647"
+                pickup_empty:
+                  summary: Example with empty data
                   value:
-                    riderId: "rider123"
-                    couponId: "64f8c8c5d3d1b2a1c9a12345"
-                    usageCount: 12
-        '401':
-          description: Missing or invalid Authorization header
+                    status: true
+                    data: []
+        '500':
+          description: Server error
           content:
             application/json:
-              example:
-                error: "Unauthorized"
-
-    post:
-      summary: Apply a coupon for a rider
-      security:
-        - bearerAuth: []
+              examples:
+                pickup_error:
+                  summary: Example error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "ERROR_PICKUP_LIST"
+                    errorMessage: "Error in getting the list of pickups"
+                    
+  /intercity/v1/destination/{pickup}:
+    get:
+      summary: Get list of destinations for a pickup path configured
       parameters:
-        - name: riderId
+        - name: pickup
           in: path
           required: true
           schema:
             type: string
-          description: Rider identifier
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - couponId
-              properties:
-                couponId:
-                  type: string
-                  description: The coupon being applied
-            examples:
-              valid:
-                summary: Apply valid coupon
-                value:
-                  couponId: "64f8c8c5d3d1b2a1c9a12345"
+          description: The pickup path string
+          
+        - in: header
+          name: yassir-app-language
+          required: false
+          schema:
+            type: string
+          description: Preferred language for the response (e.g. en, fr, ar)
       responses:
-        '201':
-          description: Coupon successfully applied
+        '200':
+          description: Successful response with destination list
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  riderId:
-                    type: string
-                  couponId:
-                    type: string
-                  applied:
+                  status:
                     type: boolean
-              example:
-                riderId: "rider123"
-                couponId: "64f8c8c5d3d1b2a1c9a12345"
-                applied: true
+                  data:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Object Id
+                        code:
+                          type: string
+                          description: Optional string
+                        name:
+                          type: string
+                          description: App language based
+                        path:
+                          type: string
+                          description: Path string
+              examples:
+                destination:
+                  summary: Example with data
+                  value:
+                    status: true
+                    data:
+                      - id: "123456788"
+                        code: "11"
+                        name: "Blida"
+                        path: "0,192756,1258647"
+                      - id: "123456788"
+                        code: "11"
+                        name: "Oran"
+                        path: "0,192756,1258647"
+                destination_empty:
+                  summary: Example with empty data
+                  value:
+                    status: true
+                    data: []
         '400':
-          description: Invalid coupon or already used
+          description: Bad request
           content:
             application/json:
-              example:
-                error: "Coupon is invalid or already used"
-        '401':
-          description: Missing or invalid Authorization header
-          content:
-            application/json:
-              example:
-                error: "Unauthorized"
+              examples:
+                destination_error_400:
+                  summary: Example 400 error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Error in getting the list of destinations"
+        '500':
+            description: Server error
+            content:
+              application/json:
+                examples:
+                  destination_error:
+                    summary: Example 500 error response
+                    value:
+                      status: false
+                      data: null
+                      errorMessageKey: "ERROR_DESTINATION_LIST"
+                      errorMessage: "Error in getting the list of destinations"
