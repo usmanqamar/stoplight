@@ -56,8 +56,8 @@ paths:
                           type: string
                           description: Path string
               examples:
-                pickup:
-                  summary: Example with data
+                with-data:
+                  summary: Example with some data
                   value:
                     status: true
                     data:
@@ -69,11 +69,24 @@ paths:
                         code: "12"
                         name: "Oran"
                         path: "0,192756,1258647"
-                pickup_empty:
+                empty:
                   summary: Example with empty data
                   value:
                     status: true
                     data: []
+                arabic:
+                  summary: Example with arabic data
+                  value:
+                    status: true
+                    data:
+                      - id: "123456788"
+                        code: "11"
+                        name: "البليدة"
+                        path: "0,192756,1258647"
+                      - id: "123456788"
+                        code: "12"
+                        name: "وهران"
+                        path: "0,192756,1258647"
         '500':
           description: Server error
           content:
@@ -133,7 +146,7 @@ paths:
                           type: string
                           description: Path string
               examples:
-                destination:
+                with-data:
                   summary: Example with data
                   value:
                     status: true
@@ -146,11 +159,24 @@ paths:
                         code: "11"
                         name: "Oran"
                         path: "0,192756,1258647"
-                destination_empty:
+                empty:
                   summary: Example with empty data
                   value:
                     status: true
                     data: []
+                arabic:
+                  summary: Example with arabic data
+                  value:
+                    status: true
+                    data:
+                      - id: "123456788"
+                        code: "11"
+                        name: "البليدة"
+                        path: "0,192756,1258647"
+                      - id: "123456788"
+                        code: "12"
+                        name: "وهران"
+                        path: "0,192756,1258647"
         '400':
           description: Bad request
           content:
