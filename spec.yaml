@@ -83,7 +83,7 @@ paths:
                         code: "11"
                         name: "البليدة"
                         path: "0,192756,1258647"
-                      - id: "123456788"
+                      - id: "123456789"
                         code: "12"
                         name: "وهران"
                         path: "0,192756,1258647"
@@ -233,7 +233,7 @@ paths:
                   value:
                     maxSeats: 4
                     bookingMinTime: 1758796669
-                    bookingMaxTime: 1758796669
+                    bookingMaxTime: 1758806669
         '500':
             description: Server error
             content:
