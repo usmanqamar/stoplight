@@ -274,5 +274,5 @@ paths:
                   value:
                     status: false
                     data: null
-                    errorMessageKey: "ERROR_PICKUP_LIST"
-                    errorMessage: "Error in getting the list of pickups"
+                    errorMessageKey: "ERROR_INTERCITY_CONFIG"
+                    errorMessage: "Error in getting the config for the service"
