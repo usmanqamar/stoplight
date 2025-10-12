@@ -25,6 +25,12 @@ paths:
           schema:
             type: string
           description: Preferred language for the response (e.g. en, fr, ar)
+        - in: query
+          name: serviceFamilyId
+          required: true
+          schema:
+            type: string
+
       security:
         - bearerAuth: []
       responses:
@@ -65,7 +71,7 @@ paths:
                         code: "11"
                         name: "Blida"
                         path: "0,192756,1258647"
-                      - id: "123456789"
+                      - id: "123456788"
                         code: "12"
                         name: "Oran"
                         path: "0,192756,1258647"
@@ -83,7 +89,7 @@ paths:
                         code: "11"
                         name: "البليدة"
                         path: "0,192756,1258647"
-                      - id: "123456789"
+                      - id: "123456788"
                         code: "12"
                         name: "وهران"
                         path: "0,192756,1258647"
@@ -110,7 +116,12 @@ paths:
           schema:
             type: string
           description: The pickup path string
-          
+        - name: serviceFamilyId
+          in: query
+          required: true
+          schema:
+            type: string
+
         - in: header
           name: yassir-app-language
           required: false
@@ -205,6 +216,13 @@ paths:
   /intercity/v1/config:
     get:
       summary: Get config of a service
+      parameters:
+        - in: query
+          name: serviceFamilyId
+          required: true
+          schema:
+            type: string
+
       security:
         - bearerAuth: []
       responses:
@@ -234,15 +252,16 @@ paths:
                     maxSeats: 4
                     bookingMinTime: 1762142400000
                     bookingMaxTime: 1763236800000
+
         '500':
-            description: Server error
-            content:
-              application/json:
-                examples:
-                  destination_error:
-                    summary: Example 500 error response
-                    value:
-                      status: false
-                      errorMessageKey: "ERROR_SERVICE_CONFIG"
-                      errorMessage: "Error in getting the config"
- 
+          description: Server error
+          content:
+            application/json:
+              examples:
+                pickup_error:
+                  summary: Example error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "ERROR_PICKUP_LIST"
+                    errorMessage: "Error in getting the list of pickups"
