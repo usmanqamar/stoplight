@@ -261,8 +261,8 @@ paths:
                   summary: Example with some data
                   value:
                     maxSeats: 4
-                    bookingMinTime: 86400
-                    bookingMaxTime: 86400
+                    bookingMinTime: 1762142400000
+                    bookingMaxTime: 1763236800000
 
         '500':
           description: Server error
