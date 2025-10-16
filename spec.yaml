@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Rider Coupon API
+  title: Inter City
   version: 1.0.0
-  description: API for managing rider coupons (mocked using Prism)
+  description: Mock API for Intercity
 
 servers:
   - url: http://localhost:4010
