@@ -276,3 +276,137 @@ paths:
                     data: null
                     errorMessageKey: "ERROR_INTERCITY_CONFIG"
                     errorMessage: "Error in getting the config for the service"
+  /intercity/v1/search-trips:
+    post:
+      summary: Search available intercity trips
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                datetime:
+                  type: string
+                  format: date-time
+                  description: Date and time for the trip (ISO 8601 format)
+                pickup:
+                  type: string
+                  description: Pickup location identifier
+                destination:
+                  type: string
+                  description: Destination location identifier
+                seats:
+                  type: number
+                  description: Number of seats required
+            examples:
+              search-request:
+                summary: Example search request
+                value:
+                  datetime: "2024-06-10T09:00:00Z"
+                  pickup: "123456788"
+                  destination: "123456789"
+                  seats: 2
+      responses:
+        200:
+          description: Successful response with available trips
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  trips:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        time:
+                          type: string
+                          format: date-time
+                        pickup:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                            city:
+                              type: string
+                        destination:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                            city:
+                              type: string
+                        paymentMethod:
+                          type: string
+              examples:
+                with-trips:
+                  summary: Example with trips
+                  value:
+                    status: true
+                    trips:
+                      - id: "trip001"
+                        time: "2024-06-10T09:30:00Z"
+                        pickup:
+                          address: "123 Main St"
+                          city: "Blida"
+                        destination:
+                          address: "456 Elm St"
+                          city: "Oran"
+                        paymentMethod: "CARD"
+                        price: 2500
+                        currency: DZD
+                        remainingSeats: 2
+                        driverProfile: 
+                          id: "driver001"
+                          phone: "+213600000000"
+                          picture: "https://example.com/driver001.jpg"
+                          name: "John Doe"
+                          rating: 4.8
+                          car:    
+                            make: "Toyota"
+                            model: "Corolla"
+                            color: "Blue"
+                            immat: "123-XYZ"
+                      - id: "trip002"
+                        time: "2024-06-10T10:00:00Z"
+                        pickup:
+                          address: "123 Main St"
+                          city: "Blida"
+                        destination:
+                          address: "456 Elm St"
+                          city: "Oran"
+                        paymentMethod: "CASH"
+                no-trips:
+                  summary: Example with no trips
+                  value:
+                    status: true
+                    trips: []
+        400:
+          description: Bad request, invalid or missing parameters
+          content:
+            application/json:
+              examples:
+                bad_request:
+                  summary: Example bad request response
+                  value:
+                    status: false
+                    trips: null
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Invalid or missing parameters"
+        500:
+          description: Server error
+          content:
+            application/json:
+              examples:
+                search_error:
+                  summary: Example error response
+                  value:
+                    status: false
+                    trips: null
+                    errorMessageKey: "ERROR_SEARCH_TRIPS"
+                    errorMessage: "Error searching for trips"
