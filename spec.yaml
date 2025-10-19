@@ -1,8 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Rider Coupon API
+  title: Intercity Mock API
   version: 1.0.0
-  description: API for managing rider coupons (mocked using Prism)
 
 servers:
   - url: http://localhost:4010
@@ -291,10 +290,10 @@ paths:
                   description: Date and time for the trip (ISO 8601 format)
                 pickup:
                   type: string
-                  description: Pickup location identifier
+                  description: Pickup location path
                 destination:
                   type: string
-                  description: Destination location identifier
+                  description: Destination location path
                 seats:
                   type: number
                   description: Number of seats required
@@ -313,8 +312,8 @@ paths:
                 summary: Example search request
                 value:
                   datetime: "2024-06-10T09:00:00Z"
-                  pickup: "123456788"
-                  destination: "123456789"
+                  pickup: "0,192756,1258647"
+                  destination: "0,192756,1258647"
                   seats: 2
                   location:
                     lat: 3.123
