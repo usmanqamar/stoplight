@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Inter City
+  title: Rider Coupon API
   version: 1.0.0
-  description: Mock API for Intercity
+  description: API for managing rider coupons (mocked using Prism)
 
 servers:
   - url: http://localhost:4010
@@ -223,7 +223,6 @@ paths:
                       data: null
                       errorMessageKey: "ERROR_DESTINATION_LIST"
                       errorMessage: "Error in getting the list of destinations"
-                      
   /intercity/v1/config:
     get:
       summary: Get config of a service
@@ -299,6 +298,16 @@ paths:
                 seats:
                   type: number
                   description: Number of seats required
+                location:
+                  type: object
+                  description: Location of user
+                  properties:
+                    lat:
+                      type: string
+                    lng:
+                      type: string
+                      
+            
             examples:
               search-request:
                 summary: Example search request
@@ -307,6 +316,9 @@ paths:
                   pickup: "123456788"
                   destination: "123456789"
                   seats: 2
+                  location:
+                    lat: 3.123
+                    lng: 2.123
       responses:
         200:
           description: Successful response with available trips
@@ -324,9 +336,7 @@ paths:
                       properties:
                         id:
                           type: string
-                        time:
-                          type: string
-                          format: date-time
+                    
                         pickup:
                           type: object
                           properties:
@@ -334,6 +344,14 @@ paths:
                               type: string
                             city:
                               type: string
+                            distance:
+                              type: number
+                            departureTime:
+                              type: string
+                              format: date-time
+                            arrivalTime:
+                              type: string
+                              format: date-time
                         destination:
                           type: object
                           properties:
@@ -372,14 +390,18 @@ paths:
                     status: true
                     trips:
                       - id: "trip001"
-                        time: "2024-06-10T09:30:00Z"
+                        
                         pickup:
                           address: "123 Main St"
                           city: "Blida"
+                          distance: 1200
+                          departureTime: "2024-06-10T09:30:00Z"
                         destination:
                           address: "456 Elm St"
                           city: "Oran"
-                        paymentMethod: "CARD"
+                          arrivalTime: "2024-06-10T09:30:00Z"
+
+                        paymentMethod: "CASH"
                         price: 2500
                         currency: DZD
                         remainingSeats: 2
@@ -395,13 +417,17 @@ paths:
                             color: "Blue"
                             immat: "123-XYZ"
                       - id: "trip002"
-                        time: "2024-06-10T10:00:00Z"
                         pickup:
                           address: "123 Main St"
                           city: "Blida"
+                          distance: 1200
+                          departureTime: "2024-06-10T09:30:00Z"
+
                         destination:
                           address: "456 Elm St"
                           city: "Oran"
+                          arrivalTime: "2024-06-10T09:30:00Z"
+
                         paymentMethod: "CASH"
                     requests: []
                 with-requests:
@@ -413,8 +439,12 @@ paths:
                         time: "2024-06-10T09:30:00Z"
                         pickup:
                           city: "Blida"
+                          departureTime: "2024-06-10T09:30:00Z"
+
                         destination:
                           city: "Oran"
+                          arrivalTime: "2024-06-10T09:30:00Z"
+
                         remainingSeats: 2
                      
                     trips: []
