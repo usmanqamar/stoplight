@@ -532,3 +532,60 @@ paths:
                     trips: null
                     errorMessageKey: "ERROR_SEARCH_TRIPS"
                     errorMessage: "Error searching for trips"
+  /intercity/v1/pricing:
+    get:
+      summary: Get pricing config of a service
+      parameters:
+        - in: query
+          name: serviceFamilyId
+          required: true
+          schema:
+            type: string
+
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response with config keys
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  minPrice:
+                    type: number
+                    description: Minimum price for this trip
+                  maxPrice:
+                    type: number
+                    description: Maximum price for this trip
+                
+              examples:
+                with-data:
+                  summary: Example with some data
+                  value:
+                    minPrice: 2000
+                    maxPrice: 3000
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              examples:
+                destination_error_400:
+                  summary: Example 400 error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Error in getting the pricing config"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              examples:
+                pickup_error:
+                  summary: Example error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "ERROR_INTERCITY_PRICING"
+                    errorMessage: "Error in getting the pricing config for the trip"
