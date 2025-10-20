@@ -367,17 +367,22 @@ paths:
                       properties:
                         id:
                           type: string
-                        time:
-                          type: string
-                          format: date-time
+                        joined:
+                          type: boolean
                         pickup:
                           type: object
                           properties:
+                            departureTime:
+                              type: string
+                              format: date-time
                             city:
                               type: string
                         destination:
                           type: object
                           properties:
+                            arrivalTime:
+                              type: string
+                              format: date-time
                             city:
                               type: string
                         
@@ -453,11 +458,15 @@ paths:
                     status: true
                     requests:
                       - id: "trip001"
-                        time: "2024-06-10T09:30:00Z"
+                        joined: true
                         pickup:
                           city: "Blida"
+                          departureTime: "2024-06-10T09:30:00Z"
+
                         destination:
                           city: "Oran"
+                          arrivalTime: "2024-06-10T09:30:00Z"
+
                         remainingSeats: 2
                      
                     trips:
@@ -469,7 +478,7 @@ paths:
                         destination:
                           address: "456 Elm St"
                           city: "Oran"
-                        paymentMethod: "CARD"
+                        paymentMethod: "CASH"
                         price: 2500
                         currency: DZD
                         remainingSeats: 2
