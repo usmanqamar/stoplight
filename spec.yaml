@@ -304,9 +304,9 @@ paths:
                   description: Location of user
                   properties:
                     lat:
-                      type: string
+                      type: number
                     lng:
-                      type: string
+                      type: number
                       
             
             examples:
