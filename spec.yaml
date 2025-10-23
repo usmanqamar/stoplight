@@ -544,6 +544,12 @@ paths:
           required: true
           schema:
             type: string
+        - in: header
+          name: yassir-app-language
+          required: false
+          schema:
+            type: string
+          description: Preferred language for the response (e.g. en, fr, ar)
 
       security:
         - bearerAuth: []
@@ -561,6 +567,9 @@ paths:
                   maxPrice:
                     type: number
                     description: Maximum price for this trip
+                  currency:
+                    type: string
+                    description: Currency in the given language
                 
               examples:
                 with-data:
@@ -568,6 +577,13 @@ paths:
                   value:
                     minPrice: 2000
                     maxPrice: 3000
+                    currency: "DZ"
+                with-data-ar:
+                  summary: Example with some arabic
+                  value:
+                    minPrice: 2000
+                    maxPrice: 3000
+                    currency: "دج"
         '400':
           description: Bad request
           content:
