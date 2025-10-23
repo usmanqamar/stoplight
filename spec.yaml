@@ -536,14 +536,35 @@ paths:
                     errorMessageKey: "ERROR_SEARCH_TRIPS"
                     errorMessage: "Error searching for trips"
   /intercity/v1/pricing:
-    get:
+    post:
       summary: Get pricing config of a service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serviceFamilyId:
+                  type: string
+                pickup:
+                  type: string
+                  description: Pickup location path
+                destination:
+                  type: string
+                  description: Destination location path
+              
+              
+            
+            examples:
+              search-request:
+                summary: Example search request
+                value:
+                  serviceFamilyId: "68e51fbe690abd6a343a8c45"
+                  pickup: "0,192756,1258647"
+                  destination: "0,192756,1258647"
+              
       parameters:
-        - in: query
-          name: serviceFamilyId
-          required: true
-          schema:
-            type: string
         - in: header
           name: yassir-app-language
           required: false
@@ -567,9 +588,12 @@ paths:
                   maxPrice:
                     type: number
                     description: Maximum price for this trip
-                  currency:
+                  currencyLabel:
                     type: string
                     description: Currency in the given language
+                  currency:
+                    type: string
+                    description: Currency
                 
               examples:
                 with-data:
@@ -577,13 +601,15 @@ paths:
                   value:
                     minPrice: 2000
                     maxPrice: 3000
-                    currency: "DZ"
+                    currency: "DZD"
+                    currencyLabel: "DZ"
                 with-data-ar:
                   summary: Example with some arabic
                   value:
                     minPrice: 2000
                     maxPrice: 3000
-                    currency: "دج"
+                    currencyLabel: "دج"
+                    currency: "DZ"
         '400':
           description: Bad request
           content:
