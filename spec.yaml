@@ -363,6 +363,41 @@ paths:
                               type: string
                         paymentMethod:
                           type: string
+                        price:
+                          type: number
+                        currency:
+                          type: string
+                        currencyLabel:
+                          type: string
+                        remainingSeats:
+                          type: number
+                        driverProfile:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            phone:
+                              type: string
+                            picture:
+                              type: number
+                            name:
+                              type: string
+                              format: date-time
+                            rating:
+                              type: string
+                            car:
+                              type: object
+                              properties:
+                                make: 
+                                  type: string
+                                model: 
+                                  type: string
+                                color: 
+                                  type: string
+                                immat:
+                                  type: string
+                          
+
                   requests:
                     type: array
                     items:
@@ -410,7 +445,8 @@ paths:
 
                         paymentMethod: "CASH"
                         price: 2500
-                        currency: DZD
+                        currency: "DZD"
+                        currencyLabel: "DZ"
                         remainingSeats: 2
                         driverProfile: 
                           id: "driver001"
