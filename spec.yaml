@@ -379,10 +379,9 @@ paths:
                             phone:
                               type: string
                             picture:
-                              type: number
+                              type: string
                             name:
                               type: string
-                              format: date-time
                             rating:
                               type: string
                             car:
@@ -658,6 +657,101 @@ paths:
                     data: null
                     errorMessageKey: "REQUIRED_FIELD_ERROR"
                     errorMessage: "Error in getting the pricing config"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              examples:
+                pickup_error:
+                  summary: Example error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "ERROR_INTERCITY_PRICING"
+                    errorMessage: "Error in getting the pricing config for the trip"
+  /intercity/v1/trip/book:
+    post:
+      summary: Post a request for booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tripId:
+                  type: string
+                  description: trip id
+                seats:
+                  type: number
+                  description: number of seats to book
+              
+            
+            examples:
+              book-request:
+                summary: Example search request
+                value:
+                  tripId: "68e51fbe690abd6a343a8c45"
+                  seats: 2
+
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response with booking id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  bookingId:
+                    type: number
+                    description: Booking Id
+                
+              examples:
+                with-data:
+                  summary: Example with some data
+                  value:
+                    status: true
+                    bookingId: "68e51fbe690abd6a343a8c45"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              examples:
+                bad_request:
+                  summary: Example 400 error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Error in booking the trip"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              examples:
+                forbidden:
+                  summary: Example 403 error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "BOOKING_NOT_ALLOWED"
+                    errorMessage: "Error in booking the trip"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                forbidden:
+                  summary: Example 404 error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "TRIP_NOT_FOUND"
+                    errorMessage: "Error in booking the trip"
         '500':
           description: Server error
           content:
