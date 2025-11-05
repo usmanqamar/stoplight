@@ -764,7 +764,7 @@ paths:
                     data: null
                     errorMessageKey: "ERROR_INTERCITY_PRICING"
                     errorMessage: "Error in getting the pricing config for the trip"
-  /intercity/v1/{driverId}/driver-insight:
+  /intercity/v1/{driverId}/driver-insights:
     get:
       summary: Get driver insights and statistics
       parameters:
