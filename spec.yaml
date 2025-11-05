@@ -908,5 +908,5 @@ paths:
                   value:
                     success: false
                     message: "Error retrieving driver insights"
-                    errorMessageKey: "ERROR_DRIVER_INSIGHTS"
+                    errorMessageKey: "SERVER_ERROR"
 
