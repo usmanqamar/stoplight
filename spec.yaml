@@ -14,6 +14,144 @@ components:
       bearerFormat: JWT  # optional, for documentation
 
 paths:
+  /intercity/v1/active-trip:
+    get:
+      summary: Get active trip of rider
+      parameters:
+        - in: header
+          name: yassir-app-language
+          required: false
+          schema:
+            type: string
+          description: Preferred language for the response (e.g. en, fr, ar)
+
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successful response with active trip
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  trip:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      pickup:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                          city:
+                            type: string
+                          distance:
+                            type: number
+                          departureTime:
+                            type: string
+                            format: date-time
+                          arrivalTime:
+                            type: string
+                            format: date-time
+                      destination:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                          city:
+                            type: string
+                      paymentMethod:
+                        type: string
+                      price:
+                        type: number
+                      currency:
+                        type: string
+                      currencyLabel:
+                        type: string
+                      remainingSeats:
+                        type: number
+                      driverProfile:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          phone:
+                            type: string
+                          picture:
+                            type: string
+                          name:
+                            type: string
+                          rating:
+                            type: string
+                          car:
+                            type: object
+                            properties:
+                              make: 
+                                type: string
+                              model: 
+                                type: string
+                              color: 
+                                type: string
+                              immat:
+                                type: string  
+                     
+
+              examples:
+                with-trip:
+                  summary: Example with trip
+                  value:
+                    status: true
+                    trip:
+                        id: "trip001"
+                        pickup:
+                          address: "123 Main St"
+                          city: "Blida"
+                          distance: 1200
+                          departureTime: "2024-06-10T09:30:00Z"
+                        destination:
+                          address: "456 Elm St"
+                          city: "Oran"
+                          arrivalTime: "2024-06-10T09:30:00Z"
+
+                        paymentMethod: "CASH"
+                        price: 2500
+                        currency: "DZD"
+                        currencyLabel: "DZ"
+                        remainingSeats: 2
+                        driverProfile: 
+                          id: "driver001"
+                          phone: "+213600000000"
+                          picture: "https://example.com/driver001.jpg"
+                          name: "John Doe"
+                          rating: 4.8
+                          car:    
+                            make: "Toyota"
+                            model: "Corolla"
+                            color: "Blue"
+                            immat: "123-XYZ"
+              
+                no-data:
+                  summary: Example with no trip
+                  value:
+                    status: true
+                    trip: null
+
+        500:
+          description: Server error
+          content:
+            application/json:
+              examples:
+                pickup_error:
+                  summary: Example error response
+                  value:
+                    status: false
+                    trip: null
+                    errorMessageKey: "ERROR_ACTIVE_TRIP"
+                    errorMessage: "Error in getting the active trip"   
   /intercity/v1/pickup:
     get:
       summary: Get list of pickups configured
@@ -704,7 +842,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
+                  success:
                     type: boolean
                   bookingId:
                     type: number
@@ -714,7 +852,7 @@ paths:
                 with-data:
                   summary: Example with some data
                   value:
-                    status: true
+                    success: true
                     bookingId: "68e51fbe690abd6a343a8c45"
         '400':
           description: Bad request
@@ -724,7 +862,7 @@ paths:
                 bad_request:
                   summary: Example 400 error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "REQUIRED_FIELD_ERROR"
                     errorMessage: "Error in booking the trip"
@@ -736,7 +874,7 @@ paths:
                 forbidden:
                   summary: Example 403 error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "BOOKING_NOT_ALLOWED"
                     errorMessage: "Error in booking the trip"
@@ -748,7 +886,7 @@ paths:
                 forbidden:
                   summary: Example 404 error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "TRIP_NOT_FOUND"
                     errorMessage: "Error in booking the trip"
@@ -760,7 +898,7 @@ paths:
                 pickup_error:
                   summary: Example error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "ERROR_INTERCITY_PRICING"
                     errorMessage: "Error in getting the pricing config for the trip"
@@ -886,7 +1024,6 @@ paths:
                       driverApprovedForTripsAt: null
                       daysSinceDriverApproved: null
                       driverInsights: []
-                        
         "404":
           description: Not found
           content:
@@ -908,5 +1045,5 @@ paths:
                   value:
                     success: false
                     message: "Error retrieving driver insights"
-                    errorMessageKey: "SERVER_ERROR"
+                    errorMessageKey: "ERROR_DRIVER_INSIGHTS"
 
