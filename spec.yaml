@@ -24,6 +24,12 @@ paths:
           schema:
             type: string
           description: Preferred language for the response (e.g. en, fr, ar)
+        - in: query
+          name: location
+          required: false
+          schema:
+            type: string
+          description: Location of rider comma separated lat,lng
 
       security:
         - bearerAuth: []
