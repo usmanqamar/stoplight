@@ -14,6 +14,98 @@ components:
       bearerFormat: JWT  # optional, for documentation
 
 paths:
+  /intercity/v1/level2-locations:
+    get:
+      summary: Get list of level 2 locations of given level 1
+      parameters:
+        - in: header
+          name: yassir-app-language
+          required: false
+          schema:
+            type: string
+          description: Preferred language for the response (e.g. en, fr, ar)
+        - in: query
+          name: level1Path
+          required: true
+          schema:
+            type: string
+
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response with pickup list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  data:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Object Id
+                        name:
+                          type: string
+                          description: App language based
+                        path:
+                          type: string
+                          description: Path string
+              examples:
+                with-data:
+                  summary: Example with some data
+                  value:
+                    status: true
+                    data:
+                     - id: "123456788"
+                       name: "Abadla"
+                       path: "6531119,1258647,192756,0"
+                     - id: "123456789"
+                       name: "Bechar"
+                       path: "6531015,1258647,192756,0"
+                empty:
+                  summary: Example with empty data
+                  value:
+                    status: true
+                    data: []
+                arabic:
+                  summary: Example with arabic data
+                  value:
+                    status: true
+                    data:
+                     - id: "123456788"
+                       name: "دائرة العبادلة"
+                       path: "6531119,1258647,192756,0"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                pickup_error:
+                  summary: Without Service Family Id
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "FAMILYID_REQUIRED"
+                    errorMessage: "Service Family Id required"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              examples:
+                pickup_error:
+                  summary: Example error response
+                  value:
+                    status: false
+                    data: null
+                    errorMessageKey: "ERROR_PICKUP_LIST"
+                    errorMessage: "Error in getting the list of pickups"   
   /intercity/v1/active-trip:
     get:
       summary: Get active trip of rider
