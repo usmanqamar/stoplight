@@ -40,7 +40,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
+                  success:
                     type: boolean
                   data:
                     type: array
@@ -61,7 +61,7 @@ paths:
                 with-data:
                   summary: Example with some data
                   value:
-                    status: true
+                    success: true
                     data:
                      - id: "123456788"
                        name: "Abadla"
@@ -72,12 +72,12 @@ paths:
                 empty:
                   summary: Example with empty data
                   value:
-                    status: true
+                    success: true
                     data: []
                 arabic:
                   summary: Example with arabic data
                   value:
-                    status: true
+                    success: true
                     data:
                      - id: "123456788"
                        name: "دائرة العبادلة"
@@ -90,7 +90,7 @@ paths:
                 pickup_error:
                   summary: Without Service Family Id
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "FAMILYID_REQUIRED"
                     errorMessage: "Service Family Id required"
@@ -102,7 +102,7 @@ paths:
                 pickup_error:
                   summary: Example error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "ERROR_PICKUP_LIST"
                     errorMessage: "Error in getting the list of pickups"   
@@ -133,7 +133,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
+                  success:
                     type: boolean
                   trip:
                     type: object
@@ -202,7 +202,7 @@ paths:
                 with-trip:
                   summary: Example with trip
                   value:
-                    status: true
+                    success: true
                     trip:
                         id: "trip001"
                         pickup:
@@ -235,7 +235,7 @@ paths:
                 no-data:
                   summary: Example with no trip
                   value:
-                    status: true
+                    success: true
                     trip: null
 
         500:
@@ -246,7 +246,7 @@ paths:
                 pickup_error:
                   summary: Example error response
                   value:
-                    status: false
+                    success: false
                     trip: null
                     errorMessageKey: "ERROR_ACTIVE_TRIP"
                     errorMessage: "Error in getting the active trip"   
@@ -276,7 +276,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
+                  success:
                     type: boolean
                   data:
                     type: array
@@ -300,7 +300,7 @@ paths:
                 with-data:
                   summary: Example with some data
                   value:
-                    status: true
+                    success: true
                     data:
                       - id: "123456788"
                         code: "11"
@@ -313,12 +313,12 @@ paths:
                 empty:
                   summary: Example with empty data
                   value:
-                    status: true
+                    success: true
                     data: []
                 arabic:
                   summary: Example with arabic data
                   value:
-                    status: true
+                    success: true
                     data:
                       - id: "123456788"
                         code: "11"
@@ -336,7 +336,7 @@ paths:
                 pickup_error:
                   summary: Without Service Family Id
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "FAMILYID_REQUIRED"
                     errorMessage: "Service Family Id required"
@@ -348,7 +348,7 @@ paths:
                 pickup_error:
                   summary: Example error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "ERROR_PICKUP_LIST"
                     errorMessage: "Error in getting the list of pickups"   
@@ -382,7 +382,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
+                  success:
                     type: boolean
                   data:
                     type: array
@@ -406,7 +406,7 @@ paths:
                 with-data:
                   summary: Example with data
                   value:
-                    status: true
+                    success: true
                     data:
                       - id: "123456788"
                         code: "11"
@@ -419,12 +419,12 @@ paths:
                 empty:
                   summary: Example with empty data
                   value:
-                    status: true
+                    success: true
                     data: []
                 arabic:
                   summary: Example with arabic data
                   value:
-                    status: true
+                    success: true
                     data:
                       - id: "123456788"
                         code: "11"
@@ -442,7 +442,7 @@ paths:
                 destination_error_400:
                   summary: Example 400 error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "REQUIRED_FIELD_ERROR"
                     errorMessage: "Error in getting the list of destinations"
@@ -454,7 +454,7 @@ paths:
                   destination_error:
                     summary: Example 500 error response
                     value:
-                      status: false
+                      success: false
                       data: null
                       errorMessageKey: "ERROR_DESTINATION_LIST"
                       errorMessage: "Error in getting the list of destinations"
@@ -506,7 +506,7 @@ paths:
                 pickup_error:
                   summary: Example error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "ERROR_INTERCITY_CONFIG"
                     errorMessage: "Error in getting the config for the service"
@@ -565,7 +565,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
+                  success:
                     type: boolean
                   trips:
                     type: array
@@ -664,7 +664,7 @@ paths:
                 with-trips:
                   summary: Example with trips
                   value:
-                    status: true
+                    success: true
                     trips:
                       - id: "trip001"
                         
@@ -711,7 +711,7 @@ paths:
                 with-requests:
                   summary: Example with requests
                   value:
-                    status: true
+                    success: true
                     requests:
                       - id: "trip001"
                         time: "2024-06-10T09:30:00Z"
@@ -729,7 +729,7 @@ paths:
                 with-requests-and-trips:
                   summary: Example with requests and trips
                   value:
-                    status: true
+                    success: true
                     requests:
                       - id: "trip001"
                         joined: true
@@ -779,7 +779,7 @@ paths:
                 no-data:
                   summary: Example with no trips and requests
                   value:
-                    status: true
+                    success: true
                     trips: []
                     requests: []
         400:
@@ -790,7 +790,7 @@ paths:
                 bad_request:
                   summary: Example bad request response
                   value:
-                    status: false
+                    success: false
                     trips: null
                     errorMessageKey: "REQUIRED_FIELD_ERROR"
                     errorMessage: "Invalid or missing parameters"
@@ -802,7 +802,7 @@ paths:
                 search_error:
                   summary: Example error response
                   value:
-                    status: false
+                    success: false
                     trips: null
                     errorMessageKey: "ERROR_SEARCH_TRIPS"
                     errorMessage: "Error searching for trips"
@@ -889,7 +889,7 @@ paths:
                 destination_error_400:
                   summary: Example 400 error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "REQUIRED_FIELD_ERROR"
                     errorMessage: "Error in getting the pricing config"
@@ -901,7 +901,7 @@ paths:
                 pickup_error:
                   summary: Example error response
                   value:
-                    status: false
+                    success: false
                     data: null
                     errorMessageKey: "ERROR_INTERCITY_PRICING"
                     errorMessage: "Error in getting the pricing config for the trip"
