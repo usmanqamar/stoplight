@@ -265,6 +265,32 @@ paths:
                             type: string
                           city:
                             type: string
+                      bookings:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _id: 
+                              type: string
+                            riderProfile:
+                              type: object
+                              properties:
+                                _id:
+                                  type: string
+                                rider:
+                                  type: string
+                                email:
+                                  type: string
+                                fullName:
+                                  type: string
+                                gender:
+                                  type: string
+                                phone:
+                                  type: string
+                                rating:
+                                  type: string
+                                reviewCount:
+                                  type: string
                       paymentMethod:
                         type: string
                       price:
@@ -323,6 +349,19 @@ paths:
                         currency: "DZD"
                         currencyLabel: "DZ"
                         remainingSeats: 2
+                        bookings:
+                          - _id: "123456788"
+                            riderProfile: 
+                              _id: ""
+                              fulName: "Usman"
+                              gender: "male"
+                              rating: 4
+                              firstName: "Usman"
+                              lastName: "Qamar"
+                              reviewCount: 10
+                              phone: "+12345678"
+                              
+                          
                         driverProfile: 
                           id: "driver001"
                           phone: "+213600000000"
