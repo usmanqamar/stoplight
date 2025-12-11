@@ -453,7 +453,7 @@ paths:
                           - _id: "123456788"
                             riderProfile: 
                               _id: ""
-                              fulName: "Usman"
+                              fullName: "Usman"
                               gender: "male"
                               rating: 4
                               firstName: "Usman"
