@@ -16,7 +16,7 @@ components:
 paths:
   /intercity/v1/create-trip:
     post:
-      summary: Create a new intercity trip
+      summary: Create a new intercity trip. actual path will be <baseurl>/b2c/driver/
       security:
         - bearerAuth: []
       requestBody:
@@ -116,7 +116,7 @@ paths:
 
   /intercity/v1/cancel-booking:
     post:
-      summary: Cancel an intercity booking
+      summary: Cancel an intercity booking. actual path will be <baseurl>/b2c/rider/
       requestBody:
         required: true
         content:
@@ -311,7 +311,7 @@ paths:
                     errorMessage: "Error in getting the list of pickups"   
   /intercity/v1/active-trip:
     get:
-      summary: Get active trip of rider
+      summary: Get active trip of rider. actual path will be <baseurl>/b2c/rider/
       parameters:
         - in: header
           name: yassir-app-language
@@ -358,12 +358,20 @@ paths:
                           arrivalTime:
                             type: string
                             format: date-time
+                          lat:
+                            type: number
+                          lng:
+                            type: string
                       destination:
                         type: object
                         properties:
                           address:
                             type: string
                           city:
+                            type: string
+                          lat:
+                            type: number
+                          lng:
                             type: string
                       bookings:
                         type: array
@@ -435,6 +443,8 @@ paths:
                     trip:
                         id: "trip001"
                         pickup:
+                          lat: 36.47
+                          lng: 3.09
                           address: "123 Main St"
                           city: "Blida"
                           distance: 1200
@@ -443,6 +453,8 @@ paths:
                           address: "456 Elm St"
                           city: "Oran"
                           arrivalTime: "2024-06-10T09:30:00Z"
+                          lat: 36.74
+                          lng: 3.09
 
                         paymentMethod: "CASH"
                         price: 2500
@@ -494,7 +506,7 @@ paths:
                     errorMessage: "Error in getting the active trip"   
   /intercity/v1/pickup:
     get:
-      summary: Get list of pickups configured
+      summary: Get list of pickups configured. actual path will be <baseurl>/b2c/common/
       parameters:
         - in: header
           name: yassir-app-language
@@ -596,7 +608,7 @@ paths:
                     errorMessage: "Error in getting the list of pickups"   
   /intercity/v1/destination/{pickup}:
     get:
-      summary: Get list of destinations for a pickup path configured
+      summary: Get list of destinations for a pickup path configured. actual path will be <baseurl>/b2c/common/
       parameters:
         - name: pickup
           in: path
@@ -702,7 +714,7 @@ paths:
                       errorMessage: "Error in getting the list of destinations"
   /intercity/v1/config:
     get:
-      summary: Get config of a service
+      summary: Get config of a service. actual path will be <baseurl>/b2c/common/
       parameters:
         - in: query
           name: serviceFamilyId
@@ -754,7 +766,7 @@ paths:
                     errorMessage: "Error in getting the config for the service"
   /intercity/v1/search-trips:
     post:
-      summary: Search available intercity trips
+      summary: Search available intercity trips. actual path will be <baseurl>/b2c/rider/
       requestBody:
         required: true
         content:
@@ -1149,7 +1161,7 @@ paths:
                     errorMessage: "Error in getting the pricing config for the trip"
   /intercity/v1/trip/book:
     post:
-      summary: Post a request for booking
+      summary: Post a request for booking. actual path will be <baseurl>/b2c/rider/
       requestBody:
         required: true
         content:
@@ -1244,7 +1256,7 @@ paths:
                     errorMessage: "Error in getting the pricing config for the trip"
   /intercity/v1/{driverId}/driver-insights:
     get:
-      summary: Get driver insights and statistics
+      summary: Get driver insights and statistics. 
       parameters:
         - name: driverId
           in: path
