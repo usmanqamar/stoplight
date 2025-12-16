@@ -164,7 +164,7 @@ paths:
                     lng:
                       type: number
                       description: Longitude of the pickup location
-                    city:
+                    path:
                       type: string
                       description: Level 1 path of the city (wilaya)
                 destination:
@@ -185,7 +185,7 @@ paths:
                   pickup:
                     lat: 36.752887
                     lng: 3.042048
-                    city: "0,192756,1258648"
+                    path: "0,192756,1258648"
                   destination: "0,192756,1258648"
                   seats: 4
                   price: 2500
