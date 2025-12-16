@@ -14,6 +14,129 @@ components:
       bearerFormat: JWT  # optional, for documentation
 
 paths:
+  /intercity/v1/validatePickup:
+    post:
+      summary: Validate driver's chosen pickup location if its in within the wilaya. actual path will be <baseurl>/b2c/driver/
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pickupPath:
+                  type: string
+                  description: wilaya Path
+                pickupLocation:
+                  type: object
+                  description: Pickup location path
+                  properties:
+                    lat:
+                      type: number
+                      description: Latitude of the pickup location
+                    lng:
+                      type: number
+                      description: Longitude of the pickup location
+                
+            examples:
+              basic:
+                summary: Example success request
+                value:
+                  pickupPath: "1258647,192756,0"
+                  pickupLocation:
+                    lat: 36.752887
+                    lng: 3.042048
+
+                  
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: validated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                 
+              examples:
+                success:
+                  summary: Example successful response
+                  value:
+                    success: true
+                    message: "Location is validated"
+                error:
+                  summary: Example error response
+                  value:
+                    success: true
+                    message: "Location is not valid"
+                   
+  
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              examples:
+                missing_fields:
+                  summary: Missing required fields
+                  value:
+                    success: false
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Booking ID is required and must be valid"
+                already_canceled:
+                  summary: Booking already canceled
+                  value:
+                    success: false
+                    errorMessageKey: "ALREADY_CANCELED"
+                    errorMessage: "Booking is already canceled"
+                cancellation_window_expired:
+                  summary: Cancellation window expired
+                  value:
+                    success: false
+                    errorMessageKey: "VALIDATION_ERROR"
+                    errorMessage: "Cancellation window has expired. You cannot cancel this booking as the trip is too close to departure time"
+                   
+  
+        '403':
+          description: Forbidden - Not authorized to cancel this booking
+          content:
+            application/json:
+              examples:
+                unauthorized:
+                  summary: Unauthorized access
+                  value:
+                    success: false
+                    errorMessageKey: "VALIDATION_ERROR"
+                    errorMessage: "You are not authorized to cancel this booking"
+  
+        '404':
+          description: Booking not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  summary: Booking not found
+                  value:
+                    success: false
+                    errorMessageKey: "NOT_FOUND"
+                    errorMessage: "Booking not found"
+  
+        '500':
+          description: Server error
+          content:
+            application/json:
+              examples:
+                server_error:
+                  summary: Example error response
+                  value:
+                    success: false
+                    errorMessageKey: "ERROR_CANCEL_BOOKING"
+                    errorMessage: "Error canceling the intercity booking"
+
   /intercity/v1/create-trip:
     post:
       summary: Create a new intercity trip. actual path will be <baseurl>/b2c/driver/
@@ -46,7 +169,7 @@ paths:
                       description: Level 1 path of the city (wilaya)
                 destination:
                   type: string
-                  description: Destination location path
+                  description: Destination location path i.e level 2
                 seats:
                   type: number
                   minimum: 1
