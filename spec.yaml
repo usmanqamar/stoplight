@@ -586,6 +586,7 @@ paths:
                         remainingSeats: 2
                         bookings:
                           - _id: "123456788"
+                            seats: 1
                             riderProfile: 
                               _id: ""
                               fullName: "Usman"
