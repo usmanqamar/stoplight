@@ -86,44 +86,8 @@ paths:
                   value:
                     success: false
                     errorMessageKey: "REQUIRED_FIELD_ERROR"
-                    errorMessage: "Booking ID is required and must be valid"
-                already_canceled:
-                  summary: Booking already canceled
-                  value:
-                    success: false
-                    errorMessageKey: "ALREADY_CANCELED"
-                    errorMessage: "Booking is already canceled"
-                cancellation_window_expired:
-                  summary: Cancellation window expired
-                  value:
-                    success: false
-                    errorMessageKey: "VALIDATION_ERROR"
-                    errorMessage: "Cancellation window has expired. You cannot cancel this booking as the trip is too close to departure time"
-                   
-  
-        '403':
-          description: Forbidden - Not authorized to cancel this booking
-          content:
-            application/json:
-              examples:
-                unauthorized:
-                  summary: Unauthorized access
-                  value:
-                    success: false
-                    errorMessageKey: "VALIDATION_ERROR"
-                    errorMessage: "You are not authorized to cancel this booking"
-  
-        '404':
-          description: Booking not found
-          content:
-            application/json:
-              examples:
-                not_found:
-                  summary: Booking not found
-                  value:
-                    success: false
-                    errorMessageKey: "NOT_FOUND"
-                    errorMessage: "Booking not found"
+                    errorMessage: "Pickup path is required"
+                
   
         '500':
           description: Server error
@@ -134,8 +98,8 @@ paths:
                   summary: Example error response
                   value:
                     success: false
-                    errorMessageKey: "ERROR_CANCEL_BOOKING"
-                    errorMessage: "Error canceling the intercity booking"
+                    errorMessageKey: "ERROR_VALIDATE_LOCATION"
+                    errorMessage: "Error validating the pickup location"
 
   /intercity/v1/create-trip:
     post:
