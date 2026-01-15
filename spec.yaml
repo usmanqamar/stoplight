@@ -593,25 +593,8 @@ paths:
                     errorMessageKey: "ERROR_ACTIVE_TRIP"
                     errorMessage: "Error in getting the active trip"   
   /intercity/v1/pickup:
-    post:
+    get:
       summary: Get list of pickups configured. actual path will be <baseurl>/b2c/common/
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                country:
-                  type: string
-            
-            examples:
-              search-request:
-                summary: Example request
-                value:
-                  country: "DZ"
-                 
-
       parameters:
         - in: header
           name: yassir-app-language
@@ -619,7 +602,12 @@ paths:
           schema:
             type: string
           description: Preferred language for the response (e.g. en, fr, ar)
-      
+        - in: query
+          name: location
+          required: false
+          schema:
+            type: string
+          description: lat,lng
       security:
         - bearerAuth: []
       responses:
@@ -707,7 +695,7 @@ paths:
                     errorMessageKey: "ERROR_PICKUP_LIST"
                     errorMessage: "Error in getting the list of pickups"   
   /intercity/v1/destination/{pickup}:
-    post:
+    get:
       summary: Get list of destinations for a pickup path configured. actual path will be <baseurl>/b2c/common/
       parameters:
         - name: pickup
@@ -723,23 +711,6 @@ paths:
           schema:
             type: string
           description: Preferred language for the response (e.g. en, fr, ar)
-
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                country:
-                  type: string
-               
-            examples:
-              search-request:
-                summary: Example request
-                value:
-                  country: "DZ"
-                 
 
       responses:
         '200':
