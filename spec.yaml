@@ -9,9 +9,9 @@ servers:
 components:
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT  # optional, for documentation
+      type: apiKey
+      in: header
+      name: Authorization  # optional, for documentation
 
 paths:
   /intercity/v1/validatePickup:
