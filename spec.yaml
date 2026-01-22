@@ -799,12 +799,6 @@ paths:
   /intercity/v1/config:
     get:
       summary: Get config of a service. actual path will be <baseurl>/b2c/common/
-      parameters:
-        - in: query
-          name: serviceFamilyId
-          required: true
-          schema:
-            type: string
 
       security:
         - bearerAuth: []
@@ -858,8 +852,6 @@ paths:
             schema:
               type: object
               properties:
-                serviceFamilyId:
-                  type: string
                 datetime:
                   type: string
                   format: date-time
@@ -887,7 +879,6 @@ paths:
               search-request:
                 summary: Example search request
                 value:
-                  serviceFamilyId: "68e51fbe690abd6a343a8c45"
                   datetime: "2024-06-10T09:00:00Z"
                   pickup: "0,192756,1258647"
                   destination: "0,192756,1258647"
@@ -1154,8 +1145,6 @@ paths:
             schema:
               type: object
               properties:
-                serviceFamilyId:
-                  type: string
                 pickup:
                   type: string
                   description: Pickup location path
@@ -1169,7 +1158,6 @@ paths:
               search-request:
                 summary: Example search request
                 value:
-                  serviceFamilyId: "68e51fbe690abd6a343a8c45"
                   pickup: "0,192756,1258647"
                   destination: "0,192756,1258647"
               
