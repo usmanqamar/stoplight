@@ -14,6 +14,239 @@ components:
       name: Authorization  # optional, for documentation
 
 paths:
+  /intercity/v1/trip/{tripId}:
+    get:
+      summary: Get trip details with all bookings
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: tripId
+          required: true
+          schema:
+            type: string
+          description: Trip ID
+        - in: header
+          name: driver_id
+          required: true
+          schema:
+            type: string
+          description: Driver ID
+        - in: header
+          name: app_language
+          required: false
+          schema:
+            type: string
+            default: en
+          description: Preferred language for currency label (e.g. en, fr, ar)
+      responses:
+        '200':
+          description: Trip details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  trip:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      status:
+                        type: string
+                      pickup:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                          city:
+                            type: string
+                          distance:
+                            type: number
+                          departureTime:
+                            type: string
+                            format: date-time
+                          arrivalTime:
+                            type: string
+                            format: date-time
+                          lat:
+                            type: number
+                          lng:
+                            type: number
+                      destination:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                          city:
+                            type: string
+                          lat:
+                            type: number
+                          lng:
+                            type: number
+                      price:
+                        type: number
+                      maxSeats:
+                        type: number
+                      currency:
+                        type: string
+                      currencyLabel:
+                        type: string
+                      driverProfile:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          phone:
+                            type: string
+                          picture:
+                            type: string
+                          name:
+                            type: string
+                          rating:
+                            type: number
+                          car:
+                            type: object
+                            properties:
+                              make:
+                                type: string
+                              model:
+                                type: string
+                              color:
+                                type: string
+                              immat:
+                                type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      bookings:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                            riderProfile:
+                              type: object
+                              properties:
+                                _id:
+                                  type: string
+                                rider:
+                                  type: string
+                                email:
+                                  type: string
+                                fullName:
+                                  type: string
+                                gender:
+                                  type: string
+                                phone:
+                                  type: string
+                                rating:
+                                  type: string
+                                reviewCount:
+                                  type: string
+              examples:
+                with-bookings:
+                  summary: Trip with bookings
+                  value:
+                    success: true
+                    trip:
+                      id: "6550f8a8e4b0a2f9c8b0e1a3"
+                      status: "DRIVER_ASSIGNED"
+                      pickup:
+                        address: "Abadla, Béchar, Algérie"
+                        city: "Béchar"
+                        distance: 51997
+                        departureTime: "2026-02-01T10:00:00.000Z"
+                        arrivalTime: "2026-02-01T10:00:00.000Z"
+                        lat: 31.021289
+                        lng: -2.719016
+                      destination:
+                        address: "Abalessa, Tamanrasset, Algérie"
+                        city: "Tamanrasset"
+                        lat: 22.893424
+                        lng: 4.850719
+                      price: 2500
+                      maxSeats: 4
+                      currency: "DZD"
+                      currencyLabel: "DZD"
+                      driverProfile:
+                        id: "63a1853f465b7f0008e6f0e4"
+                        phone: "+213600000000"
+                        picture: "https://example.com/driver001.jpg"
+                        name: "John Doe"
+                        rating: 4.8
+                        car:
+                          make: "Toyota"
+                          model: "Corolla"
+                          color: "Blue"
+                          immat: "123-ABC-45"
+                      createdAt: "2026-01-15T08:00:00.000Z"
+                      updatedAt: "2026-01-20T12:30:00.000Z"
+                      bookings:
+                        - _id: "6550f8a8e4b0a2f9c8b0e1a4"
+                          riderProfile:
+                            _id: "6550f8a8e4b0a2f9c8b0e1a5"
+                            rider: "6550f8a8e4b0a2f9c8b0e1a5"
+                            email: "rider1@example.com"
+                            fullName: "Alice Smith"
+                            gender: "female"
+                            phone: "+213600000001"
+                            rating: "4.5"
+                            reviewCount: "10"
+                        - _id: "6550f8a8e4b0a2f9c8b0e1a6"
+                          riderProfile:
+                            _id: "6550f8a8e4b0a2f9c8b0e1a7"
+                            rider: "6550f8a8e4b0a2f9c8b0e1a7"
+                            email: "rider2@example.com"
+                            fullName: "Bob Johnson"
+                            gender: "male"
+                            phone: "+213600000002"
+
+                no-bookings:
+                  summary: Trip without bookings
+                  value:
+                    success: true
+                    trip:
+                      id: "6550f8a8e4b0a2f9c8b0e1a3"
+                      status: "DRIVER_ASSIGNED"
+                      pickup:
+                        address: "Abadla, Béchar, Algérie"
+                        city: "Béchar"
+                        distance: 51997
+                        departureTime: "2026-02-01T10:00:00.000Z"
+                        arrivalTime: "2026-02-01T10:00:00.000Z"
+                        lat: 31.021289
+                        lng: -2.719016
+                      destination:
+                        address: "Abalessa, Tamanrasset, Algérie"
+                        city: "Tamanrasset"
+                        lat: 22.893424
+                        lng: 4.850719
+                      price: 2500
+                      maxSeats: 4
+                      currency: "DZD"
+                      currencyLabel: "DZD"
+                      driverProfile:
+                        id: "63a1853f465b7f0008e6f0e4"
+                        phone: "+213600000000"
+                        picture: "https://example.com/driver001.jpg"
+                        name: "John Doe"
+                        rating: 4.8
+                        car:
+                          make: "Toyota"
+                          model: "Corolla"
+                          color: "Blue"
+                          immat: "123-ABC-45"
+                      createdAt: "2026-01-15T08:00:00.000Z"
+                      updatedAt: "2026-01-20T12:30:00.000Z"
+                      bookings: []
+
   /intercity/v1/validatePickup:
     post:
       summary: Validate driver's chosen pickup location if its in within the wilaya. actual path will be <baseurl>/b2c/driver/
