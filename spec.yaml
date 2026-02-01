@@ -16,7 +16,7 @@ components:
 paths:
   /intercity/v1/trip/{tripId}:
     get:
-      summary: Get trip details with all bookings
+      summary: Get trip details with all bookings. actual path will be <baseurl>/b2c/driver/
       security:
         - bearerAuth: []
       parameters:
@@ -26,12 +26,13 @@ paths:
           schema:
             type: string
           description: Trip ID
-        - in: header
-          name: driver_id
-          required: true
+        - in: query
+          name: location
+          required: false
           schema:
             type: string
-          description: Driver ID
+          description: Driver's current location lat,lng
+
         - in: header
           name: app_language
           required: false
@@ -68,9 +69,7 @@ paths:
                           departureTime:
                             type: string
                             format: date-time
-                          arrivalTime:
-                            type: string
-                            format: date-time
+
                           lat:
                             type: number
                           lng:
@@ -82,6 +81,9 @@ paths:
                             type: string
                           city:
                             type: string
+                          arrivalTime:
+                            type: string
+                            format: date-time
                           lat:
                             type: number
                           lng:
@@ -118,12 +120,6 @@ paths:
                                 type: string
                               immat:
                                 type: string
-                      createdAt:
-                        type: string
-                        format: date-time
-                      updatedAt:
-                        type: string
-                        format: date-time
                       bookings:
                         type: array
                         items:
@@ -163,7 +159,6 @@ paths:
                         city: "Béchar"
                         distance: 51997
                         departureTime: "2026-02-01T10:00:00.000Z"
-                        arrivalTime: "2026-02-01T10:00:00.000Z"
                         lat: 31.021289
                         lng: -2.719016
                       destination:
@@ -171,6 +166,8 @@ paths:
                         city: "Tamanrasset"
                         lat: 22.893424
                         lng: 4.850719
+                        arrivalTime: "2026-02-01T10:00:00.000Z"
+
                       price: 2500
                       maxSeats: 4
                       currency: "DZD"
@@ -186,8 +183,6 @@ paths:
                           model: "Corolla"
                           color: "Blue"
                           immat: "123-ABC-45"
-                      createdAt: "2026-01-15T08:00:00.000Z"
-                      updatedAt: "2026-01-20T12:30:00.000Z"
                       bookings:
                         - _id: "6550f8a8e4b0a2f9c8b0e1a4"
                           riderProfile:
@@ -197,7 +192,7 @@ paths:
                             fullName: "Alice Smith"
                             gender: "female"
                             phone: "+213600000001"
-                            rating: "4.5"
+                            rating: 4.5
                             reviewCount: "10"
                         - _id: "6550f8a8e4b0a2f9c8b0e1a6"
                           riderProfile:
@@ -243,8 +238,6 @@ paths:
                           model: "Corolla"
                           color: "Blue"
                           immat: "123-ABC-45"
-                      createdAt: "2026-01-15T08:00:00.000Z"
-                      updatedAt: "2026-01-20T12:30:00.000Z"
                       bookings: []
 
   /intercity/v1/validatePickup:
@@ -716,9 +709,9 @@ paths:
                                 phone:
                                   type: string
                                 rating:
-                                  type: string
+                                  type: number
                                 reviewCount:
-                                  type: string
+                                  type: number
                       paymentMethod:
                         type: string
                       price:
@@ -741,7 +734,7 @@ paths:
                           name:
                             type: string
                           rating:
-                            type: string
+                            type: number
                           car:
                             type: object
                             properties:
@@ -1181,7 +1174,7 @@ paths:
                             name:
                               type: string
                             rating:
-                              type: string
+                              type: number
                             car:
                               type: object
                               properties:
