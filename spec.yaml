@@ -145,7 +145,7 @@ paths:
                                 rating:
                                   type: string
                                 reviewCount:
-                                  type: string
+                                  type: number
               examples:
                 with-bookings:
                   summary: Trip with bookings
@@ -193,7 +193,7 @@ paths:
                             gender: "female"
                             phone: "+213600000001"
                             rating: 4.5
-                            reviewCount: "10"
+                            reviewCount: 10
                         - _id: "6550f8a8e4b0a2f9c8b0e1a6"
                           riderProfile:
                             _id: "6550f8a8e4b0a2f9c8b0e1a7"
@@ -1411,6 +1411,9 @@ paths:
                   maxPrice:
                     type: number
                     description: Maximum price for this trip
+                  recomendedPrice:
+                    type: number
+                    description: Recomended price for this trip
                   currencyLabel:
                     type: string
                     description: Currency in the given language
@@ -1424,6 +1427,7 @@ paths:
                   value:
                     minPrice: 2000
                     maxPrice: 3000
+                    recomendedPrice: 1500
                     currency: "DZD"
                     currencyLabel: "DZ"
                 with-data-ar:
@@ -1431,6 +1435,7 @@ paths:
                   value:
                     minPrice: 2000
                     maxPrice: 3000
+                    recomendedPrice: 1500
                     currencyLabel: "دج"
                     currency: "DZ"
         '400':
