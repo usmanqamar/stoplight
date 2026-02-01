@@ -125,12 +125,13 @@ paths:
                         items:
                           type: object
                           properties:
-                            _id:
+                            id:
                               type: string
+                              seats: number
                             riderProfile:
                               type: object
                               properties:
-                                _id:
+                                id:
                                   type: string
                                 rider:
                                   type: string
@@ -184,9 +185,10 @@ paths:
                           color: "Blue"
                           immat: "123-ABC-45"
                       bookings:
-                        - _id: "6550f8a8e4b0a2f9c8b0e1a4"
+                        - id: "6550f8a8e4b0a2f9c8b0e1a4"
+                          seats: 1
                           riderProfile:
-                            _id: "6550f8a8e4b0a2f9c8b0e1a5"
+                            id: "6550f8a8e4b0a2f9c8b0e1a5"
                             rider: "6550f8a8e4b0a2f9c8b0e1a5"
                             email: "rider1@example.com"
                             fullName: "Alice Smith"
@@ -194,9 +196,10 @@ paths:
                             phone: "+213600000001"
                             rating: 4.5
                             reviewCount: 10
-                        - _id: "6550f8a8e4b0a2f9c8b0e1a6"
+                        - id: "6550f8a8e4b0a2f9c8b0e1a6"
+                          seats: 2
                           riderProfile:
-                            _id: "6550f8a8e4b0a2f9c8b0e1a7"
+                            id: "6550f8a8e4b0a2f9c8b0e1a7"
                             rider: "6550f8a8e4b0a2f9c8b0e1a7"
                             email: "rider2@example.com"
                             fullName: "Bob Johnson"
@@ -691,12 +694,12 @@ paths:
                         items:
                           type: object
                           properties:
-                            _id: 
+                            id: 
                               type: string
                             riderProfile:
                               type: object
                               properties:
-                                _id:
+                                id:
                                   type: string
                                 rider:
                                   type: string
@@ -775,10 +778,10 @@ paths:
                         currencyLabel: "DZ"
                         remainingSeats: 2
                         bookings:
-                          - _id: "123456788"
+                          - id: "123456788"
                             seats: 1
                             riderProfile: 
-                              _id: ""
+                              id: ""
                               fullName: "Usman"
                               gender: "male"
                               rating: 4
