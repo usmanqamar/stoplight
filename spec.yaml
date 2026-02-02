@@ -1080,6 +1080,10 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - pickup
+                - destination
+          
               properties:
                 datetime:
                   type: string
