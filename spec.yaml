@@ -1145,7 +1145,6 @@ paths:
                               type: string
                             city:
                               type: string
-                              x-faker: name.firstName
                             distance:
                               type: number
                             departureTime:
