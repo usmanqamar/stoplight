@@ -1091,6 +1091,7 @@ paths:
                 destination:
                   type: string
                   description: Destination location path
+                  required: true
                 seats:
                   type: number
                   description: Number of seats required
