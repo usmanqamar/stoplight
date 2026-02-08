@@ -14,6 +14,196 @@ components:
       name: Authorization  # optional, for documentation
 
 paths:
+  /intercity/v1/trips:
+    get:
+      summary: Get driver's upcoming or past intercity trips with bookings. actual path will be <baseurl>/b2c/driver/
+      parameters:
+        - in: query
+          name: statusType
+          required: false
+          schema:
+            type: string
+            enum: [UPCOMING, PAST]
+            default: UPCOMING
+          description: Type of trips to retrieve - UPCOMING for future trips or PAST for completed trips
+        - in: header
+          name: driver_id
+          required: true
+          schema:
+            type: string
+          description: Driver ID
+        - in: header
+          name: app_language
+          required: false
+          schema:
+            type: string
+            default: en
+          description: Preferred language for currency label (e.g. en, fr, ar)
+      responses:
+        '200':
+          description: Trips retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  trips:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                            - PENDING
+                            - DRIVER_ASSIGNED
+                            - BOOKING_CLOSED
+                            - STARTED
+                            - COMPLETED
+                            - CANCELLED
+                        pickup:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                            city:
+                              type: string
+                            distance:
+                              type: number
+                            departureTime:
+                              type: string
+                              format: date-time
+                            lat:
+                              type: number
+                            lng:
+                              type: number
+                        destination:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                            arrivalTime:
+                              type: string
+                              format: date-time
+                            city:
+                              type: string
+                            lat:
+                              type: number
+                            lng:
+                              type: number
+                        price:
+                          type: number
+                        maxSeats:
+                          type: number
+                        currency:
+                          type: string
+                        currencyLabel:
+                          type: string
+                        bookings:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              seats:
+                                type: number
+                              riderProfile:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  rider:
+                                    type: string
+                                  email:
+                                    type: string
+                                  fullName:
+                                    type: string
+                                  firstName:
+                                    type: string
+                                  lastName:
+                                    type: string
+                                  gender:
+                                    type: string
+                                  phone:
+                                    type: string
+                                  rating:
+                                    type: number
+                                  reviewCount:
+                                    type: number
+              examples:
+                upcoming-trips:
+                  summary: Upcoming trips with bookings
+                  value:
+                    status: true
+                    trips:
+                      - id: "6550f8a8e4b0a2f9c8b0e1a3"
+                        status: "DRIVER_ASSIGNED"
+                        pickup:
+                          address: "Place des Martyrs, Algiers"
+                          city: "Algiers"
+                          distance: 2500
+                          departureTime: "2026-02-10T08:00:00.000Z"
+                          lat: 36.7538
+                          lng: 3.0588
+                        destination:
+                          address: "Place du 1er Novembre, Oran"
+                          arrivalTime: "2026-02-10T12:30:00.000Z"
+                          city: "Oran"
+                          lat: 35.6969
+                          lng: -0.6331
+                        price: 1500
+                        maxSeats: 4
+                        currency: "DZD"
+                        currencyLabel: "DA"
+                        bookings:
+                          - id: "6550f8a8e4b0a2f9c8b0e1a4"
+                            seats: 2
+                            riderProfile:
+                              id: "6550f8a8e4b0a2f9c8b0e1a5"
+                              rider: "6550f8a8e4b0a2f9c8b0e1a5"
+                              email: "rider1@example.com"
+                              fullName: "Alice Smith"
+                              firstName: "Alice"
+                              lastName: "Smith"
+                              gender: "female"
+                              phone: "+213600000001"
+                              rating: 4.5
+                              reviewCount: 10
+                no-trips:
+                  summary: No trips found
+                  value:
+                    status: true
+                    trips: []
+        '400':
+          description: Bad request, invalid parameters
+          content:
+            application/json:
+              examples:
+                invalid_type:
+                  value:
+                    status: false
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Type must be either UPCOMING or PAST"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              examples:
+                server_error:
+                  value:
+                    status: false
+                    errorMessageKey: "ERROR_FETCH_DRIVER_TRIPS"
+                    errorMessage: "Error fetching driver trips"
+
+    
+  
+  
+
   /intercity/v1/trip/{tripId}:
     get:
       summary: Get trip details with all bookings. actual path will be <baseurl>/b2c/driver/
@@ -127,7 +317,8 @@ paths:
                           properties:
                             id:
                               type: string
-                              seats: number
+                            seats: 
+                              type: number
                             riderProfile:
                               type: object
                               properties:
@@ -346,6 +537,7 @@ paths:
                 - destination
                 - seats
                 - price
+                - departureTime
               properties:
                 pickup:
                   type: object
@@ -371,6 +563,9 @@ paths:
                   type: number
                   minimum: 0
                   description: Trip price per seat
+                departureTime:
+                  type: string
+                  format: date-time
             examples:
               create-trip:
                 summary: Example create trip request
@@ -382,6 +577,7 @@ paths:
                   destination: "0,192756,1258648"
                   seats: 4
                   price: 2500
+                  departureTime: "2024-06-10T09:30:00Z"
       responses:
         '200':
           description: Trip created successfully
