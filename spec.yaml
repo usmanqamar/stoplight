@@ -14,6 +14,117 @@ components:
       name: Authorization  # optional, for documentation
 
 paths:
+  /intercity/v1/cancelTrip:
+    post:
+      summary: Cancel an intercity trip and all related bookings. actual path will be <baseurl>/b2c/driver/
+      description: |
+        Allows a driver to cancel their trip. This will set the trip status to DRIVER_CANCELLED and cancel all related bookings.
+
+        If the trip has confirmed bookings, cancellation is only allowed if the departure time is more than
+        INTERCITY_TRIP_CANCEL_WINDOW (default: 2) hours in the future.
+        Trips without bookings can be canceled at any time.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: driver_id
+          required: true
+          schema:
+            type: string
+          description: Driver ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tripId
+              properties:
+                tripId:
+                  type: string
+                  description: The ID of the trip to cancel
+            examples:
+              cancel-trip:
+                summary: Example cancel trip request
+                value:
+                  tripId: "6550f8a8e4b0a2f9c8b0e1a3"
+      responses:
+        "200":
+          description: Trip canceled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                success:
+                  summary: Trip canceled successfully
+                  value:
+                    status: true
+                    message: Trip canceled successfully
+        "400":
+          description: Bad request - Invalid parameters or trip cannot be canceled
+          content:
+            application/json:
+              examples:
+                missing_trip_id:
+                  summary: Missing trip ID
+                  value:
+                    status: false
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Trip ID is required
+                missing_driver_id:
+                  summary: Missing driver ID header
+                  value:
+                    status: false
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Driver ID is required
+        "403":
+          description: Forbidden - Not authorized to cancel this trip
+          content:
+            application/json:
+              examples:
+                unauthorized:
+                  summary: Not authorized to cancel trip
+                  value:
+                    status: false
+                    errorMessageKey: VALIDATION_ERROR
+                    errorMessage: You are not authorized to perform this action
+                time_window:
+                  summary: Cancellation time window passed
+                  value:
+                    status: false
+                    errorMessageKey: CANCEL_WINDOW_EXPIRED
+                    errorMessage: Cannot cancel trip with bookings less than 2 hours before departure
+        "404":
+          description: Trip not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  summary: Trip not found
+                  value:
+                    status: false
+                    errorMessageKey: NOT_FOUND
+                    errorMessage: Trip not found
+        "500":
+          description: Server error
+          content:
+            application/json:
+              examples:
+                server_error:
+                  summary: Internal server error
+                  value:
+                    status: false
+                    errorMessageKey: ERROR_CANCEL_TRIP
+                    errorMessage: Error canceling the intercity trip
+
+  
   /intercity/v1/trips:
     get:
       summary: Get driver's upcoming or past intercity trips with bookings. actual path will be <baseurl>/b2c/driver/
@@ -1900,4 +2011,3 @@ paths:
                     success: false
                     message: "Error retrieving driver insights"
                     errorMessageKey: "ERROR_DRIVER_INSIGHTS"
-
