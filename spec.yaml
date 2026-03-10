@@ -677,6 +677,8 @@ paths:
                 departureTime:
                   type: string
                   format: date-time
+                preview:
+                  type: boolean
             examples:
               create-trip:
                 summary: Example create trip request
@@ -689,6 +691,7 @@ paths:
                   seats: 4
                   price: 2500
                   departureTime: "2024-06-10T09:30:00Z"
+                  preview: true
       responses:
         '200':
           description: Trip created successfully
@@ -699,15 +702,84 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  tripId:
-                    type: string
+                  data:
+                    type: object
+                    properties:
+                      tripId:
+                        type: string
+                      driverPotentialEarning:
+                        type: number
+                      pricePerSeat:
+                        type: number
+                      pricePerSeatWithTax:
+                        type: number
+                      appliedTaxesDriver:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                            riderProfile:
+                              type: object
+                              properties:
+                                amount:
+                                  type: number
+                                label:
+                                  type: string
+                                
+                      appliedTaxesRider:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                            riderProfile:
+                              type: object
+                              properties:
+                                amount:
+                                  type: number
+                                label:
+                                  type: string
+                     
+                      yassirFee:
+                        type: object
+                        properties:
+                          percent:
+                            type: number
+                          amount:
+                            type: number
+                      netEarning:
+                        type: number
+                      
+            
+            
                  
               examples:
                 success:
                   summary: Example success response
                   value:
                     success: true
-                    tripId: "6550f8a8e4b0a2f9c8b0e1a3"
+                    data:
+                     tripId: "123456788"
+                     pricePerSeat: 400
+                     riderPay: 440
+                     yassirFee: {percent: 20, amount: 200}
+                     netEarning: 900
+                     appliedTaxesRider: 
+                      - label: "Stamp"
+                        amount: 20
+                      - label: "Fix Tax"
+                        amount: 10
+                        
+                     appliedTaxesDriver: 
+                      - label: "Flat Tax"
+                        amount: 5
+
+                     driverPotentialEarning: 1000
+                    
+                
         '400':
           description: Bad request, invalid or missing parameters
           content:
