@@ -127,7 +127,10 @@ paths:
   
   /intercity/v1/trips:
     get:
-      summary: Get driver's upcoming or past intercity trips with bookings. actual path will be <baseurl>/b2c/driver/
+      summary: Get driver's upcoming or past intercity trips with bookings
+      description: Retrieves driver's trips. For UPCOMING trips, all trips are returned. For PAST trips (or when statusType is not UPCOMING), cursor-based pagination is applied when cursor/limit parameters are provided.
+      security:
+        - bearerAuth: []
       parameters:
         - in: query
           name: statusType
@@ -135,23 +138,33 @@ paths:
           schema:
             type: string
             enum: [UPCOMING, PAST]
-            default: UPCOMING
-          description: Type of trips to retrieve - UPCOMING for future trips or PAST for completed trips
+            default: PAST
+        - in: query
+          name: cursor
+          description: "first time dont send this. pass value next time received from api response"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 10
         - in: header
           name: driver_id
           required: true
           schema:
             type: string
-          description: Driver ID
         - in: header
           name: app_language
           required: false
           schema:
             type: string
             default: en
-          description: Preferred language for currency label (e.g. en, fr, ar)
       responses:
-        '200':
+        "200":
           description: Trips retrieved successfully
           content:
             application/json:
@@ -167,15 +180,10 @@ paths:
                       properties:
                         id:
                           type: string
+                        tripUid:
+                          type: string
                         status:
                           type: string
-                          enum:
-                            - PENDING
-                            - DRIVER_ASSIGNED
-                            - BOOKING_CLOSED
-                            - STARTED
-                            - COMPLETED
-                            - CANCELLED
                         pickup:
                           type: object
                           properties:
@@ -246,75 +254,126 @@ paths:
                                     type: number
                                   reviewCount:
                                     type: number
+                  nextCursor:
+                    type: string
+                    nullable: true
+                  hasMore:
+                    type: boolean
               examples:
                 upcoming-trips:
-                  summary: Upcoming trips with bookings
+                  summary: Upcoming trips without pagination
                   value:
                     status: true
                     trips:
                       - id: "6550f8a8e4b0a2f9c8b0e1a3"
-                        status: "DRIVER_ASSIGNED"
+                        status: DRIVER_ASSIGNED
+                        tripUid: ABCDEFG
                         pickup:
-                          address: "Place des Martyrs, Algiers"
-                          city: "Algiers"
+                          address: Place des Martyrs, Algiers
+                          city: Algiers
                           distance: 2500
                           departureTime: "2026-02-10T08:00:00.000Z"
                           lat: 36.7538
                           lng: 3.0588
                         destination:
-                          address: "Place du 1er Novembre, Oran"
+                          address: Place du 1er Novembre, Oran
                           arrivalTime: "2026-02-10T12:30:00.000Z"
-                          city: "Oran"
+                          city: Oran
                           lat: 35.6969
                           lng: -0.6331
                         price: 1500
                         maxSeats: 4
-                        currency: "DZD"
-                        currencyLabel: "DA"
+                        currency: DZD
+                        currencyLabel: DA
                         bookings:
                           - id: "6550f8a8e4b0a2f9c8b0e1a4"
                             seats: 2
                             riderProfile:
                               id: "6550f8a8e4b0a2f9c8b0e1a5"
                               rider: "6550f8a8e4b0a2f9c8b0e1a5"
-                              email: "rider1@example.com"
-                              fullName: "Alice Smith"
-                              firstName: "Alice"
-                              lastName: "Smith"
-                              gender: "female"
+                              email: rider1@example.com
+                              fullName: Alice Smith
+                              firstName: Alice
+                              lastName: Smith
+                              gender: female
                               phone: "+213600000001"
                               rating: 4.5
                               reviewCount: 10
+                          - id: "6550f8a8e4b0a2f9c8b0e1a6"
+                            seats: 1
+                            riderProfile:
+                              id: "6550f8a8e4b0a2f9c8b0e1a7"
+                              rider: "6550f8a8e4b0a2f9c8b0e1a7"
+                              email: rider2@example.com
+                              fullName: Bob Johnson
+                              firstName: Bob
+                              lastName: Johnson
+                              gender: male
+                              phone: "+213600000002"
+                              rating: 4.7
+                              reviewCount: 8
+                past-trips-paginated:
+                  summary: Past trips with cursor-based pagination
+                  value:
+                    status: true
+                    trips:
+                      - id: "6550f8a8e4b0a2f9c8b0e1a8"
+                        status: FINISHED
+                        tripUid: XYZ123
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                    nextCursor: "6550f8a8e4b0a2f9c8b0e1a8"
+                    hasMore: true
                 no-trips:
-                  summary: No trips found
+                  summary: No trips
                   value:
                     status: true
                     trips: []
-        '400':
+        "400":
           description: Bad request, invalid parameters
           content:
             application/json:
               examples:
                 invalid_type:
+                  summary: Invalid type parameter
                   value:
                     status: false
-                    errorMessageKey: "REQUIRED_FIELD_ERROR"
-                    errorMessage: "Type must be either UPCOMING or PAST"
-        '500':
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Type must be either UPCOMING or PAST
+                missing_driver_id:
+                  summary: Missing driver ID header
+                  value:
+                    status: false
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Driver ID is required
+        "500":
           description: Server error
           content:
             application/json:
               examples:
                 server_error:
+                  summary: Internal server error
                   value:
                     status: false
-                    errorMessageKey: "ERROR_FETCH_DRIVER_TRIPS"
-                    errorMessage: "Error fetching driver trips"
-
-    
+                    errorMessageKey: ERROR_FETCH_DRIVER_TRIPS
+                    errorMessage: Error fetching driver trips
   
-  
-
   /intercity/v1/trip/{tripId}:
     get:
       summary: Get trip details with all bookings. actual path will be <baseurl>/b2c/driver/
@@ -355,6 +414,8 @@ paths:
                     type: object
                     properties:
                       id:
+                        type: string
+                      tripUid:
                         type: string
                       status:
                         type: string
@@ -456,6 +517,7 @@ paths:
                     success: true
                     trip:
                       id: "6550f8a8e4b0a2f9c8b0e1a3"
+                      tripUid: "XXXXXX"
                       status: "DRIVER_ASSIGNED"
                       pickup:
                         address: "Abadla, Béchar, Algérie"
@@ -514,6 +576,7 @@ paths:
                     success: true
                     trip:
                       id: "6550f8a8e4b0a2f9c8b0e1a3"
+                      tripUid: "XYZXYZXYZ"
                       status: "DRIVER_ASSIGNED"
                       pickup:
                         address: "Abadla, Béchar, Algérie"
@@ -1511,7 +1574,8 @@ paths:
                       properties:
                         id:
                           type: string
-                    
+                        tripUid:
+                          type: string
                         pickup:
                           type: object
                           properties:
@@ -1604,7 +1668,7 @@ paths:
                     success: true
                     trips:
                       - id: "trip001"
-                        
+                        tripUid: "XYZXYZXYZ"
                         pickup:
                           address: "123 Main St"
                           city: "Blida"
@@ -1632,6 +1696,7 @@ paths:
                             color: "Blue"
                             immat: "123-XYZ"
                       - id: "trip002"
+                        tripUid: "XYZXYZXYZ"
                         pickup:
                           address: "123 Main St"
                           city: "Blida"
@@ -1669,6 +1734,7 @@ paths:
                     success: true
                     requests:
                       - id: "trip001"
+                        tripUid: "XYZXYZXYZ"
                         joined: true
                         pickup:
                           city: "Blida"
