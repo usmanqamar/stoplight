@@ -338,6 +338,237 @@ paths:
                         currency: DZD
                         currencyLabel: DA
                         bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a9"
+                        status: FINISHED
+                        tripUid: XYZ1234
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a0"
+                        status: FINISHED
+                        tripUid: XYZ1235
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a1"
+                        status: FINISHED
+                        tripUid: XYZ1235
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a2"
+                        status: FINISHED
+                        tripUid: XYZ1237
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a3"
+                        status: FINISHED
+                        tripUid: XYZ12358
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a5"
+                        status: FINISHED
+                        tripUid: XYZ1239
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a6"
+                        status: FINISHED
+                        tripUid: XYZ123500
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1a7"
+                        status: FINISHED
+                        tripUid: XYZ123511
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1ab"
+                        status: FINISHED
+                        tripUid: XYZ123588
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1ac"
+                        status: FINISHED
+                        tripUid: XYZ123544
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
+                      - id: "6550f8a8e4b0a2f9c8b0e1ah"
+                        status: FINISHED
+                        tripUid: XYZ123577
+                        pickup:
+                          address: Avenue Aouati Mostefa, Constantine
+                          city: Constantine
+                          distance: null
+                          departureTime: "2026-02-08T14:00:00.000Z"
+                          lat: 36.365
+                          lng: 6.6147
+                        destination:
+                          address: Boulevard du 1er Novembre, Annaba
+                          arrivalTime: "2026-02-08T16:00:00.000Z"
+                          city: Annaba
+                          lat: 36.9
+                          lng: 7.7667
+                        price: 800
+                        maxSeats: 4
+                        currency: DZD
+                        currencyLabel: DA
+                        bookings: []
                     nextCursor: "6550f8a8e4b0a2f9c8b0e1a8"
                     hasMore: true
                 no-trips:
@@ -426,6 +657,8 @@ paths:
                     type: object
                     properties:
                       id:
+                        type: string
+                      tripUid:
                         type: string
                       status:
                         type: string
@@ -594,6 +827,7 @@ paths:
                     success: true
                     trip:
                       id: "6550f8a8e4b0a2f9c8b0e1a3"
+                      tripUid: "ABC123XYZ"
                       status: "DRIVER_ASSIGNED"
                       pickup:
                         address: "Abadla, Béchar, Algérie"
