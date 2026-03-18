@@ -28,7 +28,7 @@ paths:
       parameters:
         - in: header
           name: driver_id
-          required: true
+          required: false
           schema:
             type: string
           description: Driver ID
@@ -154,7 +154,7 @@ paths:
             default: 10
         - in: header
           name: driver_id
-          required: true
+          required: false
           schema:
             type: string
         - in: header
@@ -631,7 +631,7 @@ paths:
           description: Number of seats to estimate tax value
         - in: header
           name: driver_id
-          required: true
+          required: false
           schema:
             type: string
           description: Driver ID
@@ -696,10 +696,13 @@ paths:
                         type: number
                       tripCostWithTax:
                         type: number
-                        description: Total trip cost including taxes based on booked seats. Used for driver side to see how much he will receive
+                        description: Total trip cost including taxes based on booked seats. Used for driver side to see how much he will receive from riders in total
                       estimatedPrice:
                         type: number
-                        description: Estimated price based on given seats (if seats query param is provided)
+                        description: Estimated price based on given seats (if seats query param is provided). It includes rider taxes
+                      basePrice:
+                        type: number
+                        description: Used on rider side detail screen . Actual cost based on number of seats
                       appliedTaxesRider:
                         type: array
                         description: List of applied taxes with label and amount for rider
