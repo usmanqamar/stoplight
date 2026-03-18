@@ -376,7 +376,7 @@ paths:
   
   /intercity/v1/trip/{tripId}:
     get:
-      summary: Get trip details with all bookings. actual path will be <baseurl>/b2c/driver/
+      summary: Get trip details with all bookings
       security:
         - bearerAuth: []
       parameters:
@@ -391,8 +391,19 @@ paths:
           required: false
           schema:
             type: string
-          description: Driver's current location lat,lng
-
+          description: location of driver as "lat,lng"
+        - in: query
+          name: seats
+          required: false
+          schema:
+            type: string
+          description: Number of seats to estimate tax value
+        - in: header
+          name: driver_id
+          required: true
+          schema:
+            type: string
+          description: Driver ID
         - in: header
           name: app_language
           required: false
@@ -400,6 +411,7 @@ paths:
             type: string
             default: en
           description: Preferred language for currency label (e.g. en, fr, ar)
+
       responses:
         '200':
           description: Trip details retrieved successfully
@@ -415,8 +427,6 @@ paths:
                     properties:
                       id:
                         type: string
-                      tripUid:
-                        type: string
                       status:
                         type: string
                       pickup:
@@ -431,27 +441,74 @@ paths:
                           departureTime:
                             type: string
                             format: date-time
-
                           lat:
                             type: number
                           lng:
-                            type: number
+                            type: string
                       destination:
                         type: object
                         properties:
                           address:
                             type: string
-                          city:
-                            type: string
                           arrivalTime:
                             type: string
                             format: date-time
+                          city:
+                            type: string
                           lat:
                             type: number
                           lng:
-                            type: number
+                            type: string
                       price:
                         type: number
+                      tripCostWithTax:
+                        type: number
+                        description: Total trip cost including taxes based on booked seats. Used for driver side to see how much he will receive
+                      estimatedPrice:
+                        type: number
+                        description: Estimated price based on given seats (if seats query param is provided)
+                      appliedTaxesRider:
+                        type: array
+                        description: List of applied taxes with label and amount for rider
+                        items:
+                          type: object
+                          properties:
+                            label:
+                              type: string
+                            amount:
+                              type: number
+                      tripCostBreakDown:
+                        type: object
+                        description: Cost breakdown for driver
+                        properties:
+                          netEarning:
+                            type: number
+                          yassirFee:
+                            type: number
+                          driverToYassir:
+                            type: number
+                          yassirToDriver:
+                            type: number
+                          appliedTaxesRider:
+                            type: array
+                            description: List of applied taxes with label and amount for rider
+                            items:
+                              type: object
+                              properties:
+                                label:
+                                  type: string
+                                amount:
+                                  type: number
+                          appliedTaxesDriver:
+                            type: array
+                            description: List of applied taxes with label and amount for driver
+                            items:
+                              type: object
+                              properties:
+                                label:
+                                  type: string
+                                amount:
+                                  type: number
                       maxSeats:
                         type: number
                       currency:
@@ -489,7 +546,7 @@ paths:
                           properties:
                             id:
                               type: string
-                            seats: 
+                            seats:
                               type: number
                             riderProfile:
                               type: object
@@ -502,14 +559,19 @@ paths:
                                   type: string
                                 fullName:
                                   type: string
+                                firstName:
+                                  type: string
+                                lastName:
+                                  type: string
                                 gender:
                                   type: string
                                 phone:
                                   type: string
                                 rating:
-                                  type: string
+                                  type: number
                                 reviewCount:
                                   type: number
+
               examples:
                 with-bookings:
                   summary: Trip with bookings
@@ -517,7 +579,6 @@ paths:
                     success: true
                     trip:
                       id: "6550f8a8e4b0a2f9c8b0e1a3"
-                      tripUid: "XXXXXX"
                       status: "DRIVER_ASSIGNED"
                       pickup:
                         address: "Abadla, Béchar, Algérie"
@@ -525,15 +586,30 @@ paths:
                         distance: 51997
                         departureTime: "2026-02-01T10:00:00.000Z"
                         lat: 31.021289
-                        lng: -2.719016
+                        lng: "-2.719016"
                       destination:
                         address: "Abalessa, Tamanrasset, Algérie"
+                        arrivalTime: "2026-02-01T10:00:00.000Z"
                         city: "Tamanrasset"
                         lat: 22.893424
-                        lng: 4.850719
-                        arrivalTime: "2026-02-01T10:00:00.000Z"
-
-                      price: 2500
+                        lng: "4.850719"
+                      price: 800
+                      tripCostWithTax: 850
+                      estimatedPrice: 850
+                      tripCostBreakDown:
+                        netEarning: 608
+                        yassirFee: 160
+                        driverToYassir: 242
+                        yassirToDriver: 0
+                        appliedTaxesRider:
+                          - label: "Stamp Duty"
+                            amount: 50
+                        appliedTaxesDriver:
+                          - label: "Driver Benefit"
+                            amount: 32
+                      appliedTaxesRider:
+                        - label: "Stamp Duty"
+                          amount: 50
                       maxSeats: 4
                       currency: "DZD"
                       currencyLabel: "DZD"
@@ -550,7 +626,7 @@ paths:
                           immat: "123-ABC-45"
                       bookings:
                         - id: "6550f8a8e4b0a2f9c8b0e1a4"
-                          seats: 1
+                          seats: 2
                           riderProfile:
                             id: "6550f8a8e4b0a2f9c8b0e1a5"
                             rider: "6550f8a8e4b0a2f9c8b0e1a5"
@@ -561,7 +637,7 @@ paths:
                             rating: 4.5
                             reviewCount: 10
                         - id: "6550f8a8e4b0a2f9c8b0e1a6"
-                          seats: 2
+                          seats: 1
                           riderProfile:
                             id: "6550f8a8e4b0a2f9c8b0e1a7"
                             rider: "6550f8a8e4b0a2f9c8b0e1a7"
@@ -569,14 +645,15 @@ paths:
                             fullName: "Bob Johnson"
                             gender: "male"
                             phone: "+213600000002"
+                            rating: 4.7
+                            reviewCount: 8
 
                 no-bookings:
-                  summary: Trip without bookings
+                  summary: Trip with no bookings
                   value:
                     success: true
                     trip:
                       id: "6550f8a8e4b0a2f9c8b0e1a3"
-                      tripUid: "XYZXYZXYZ"
                       status: "DRIVER_ASSIGNED"
                       pickup:
                         address: "Abadla, Béchar, Algérie"
@@ -585,12 +662,12 @@ paths:
                         departureTime: "2026-02-01T10:00:00.000Z"
                         arrivalTime: "2026-02-01T10:00:00.000Z"
                         lat: 31.021289
-                        lng: -2.719016
+                        lng: "-2.719016"
                       destination:
                         address: "Abalessa, Tamanrasset, Algérie"
                         city: "Tamanrasset"
                         lat: 22.893424
-                        lng: 4.850719
+                        lng: "4.850719"
                       price: 2500
                       maxSeats: 4
                       currency: "DZD"
@@ -607,7 +684,59 @@ paths:
                           color: "Blue"
                           immat: "123-ABC-45"
                       bookings: []
+        '400':
+          description: Bad request, invalid or missing parameters
+          content:
+            application/json:
+              examples:
+                invalid_trip_id:
+                  summary: Invalid trip ID
+                  value:
+                    success: false
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Trip ID is required and must be valid"
+                missing_driver_id:
+                  summary: Missing driver ID header
+                  value:
+                    success: false
+                    errorMessageKey: "REQUIRED_FIELD_ERROR"
+                    errorMessage: "Driver ID is required"
 
+        '403':
+          description: Forbidden - Not authorized to view this trip
+          content:
+            application/json:
+              examples:
+                unauthorized:
+                  summary: Not authorized to view trip
+                  value:
+                    success: false
+                    errorMessageKey: "VALIDATION_ERROR"
+                    errorMessage: "You are not authorized to view this trip"
+
+        '404':
+          description: Trip not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  summary: Trip not found
+                  value:
+                    success: false
+                    errorMessageKey: "NOT_FOUND"
+                    errorMessage: "Trip not found"
+
+        '500':
+          description: Server error
+          content:
+            application/json:
+              examples:
+                server_error:
+                  summary: Internal server error
+                  value:
+                    success: false
+                    errorMessageKey: "ERROR_TRIP_DETAIL"
+                    errorMessage: "Error in getting the trip detail"
   /intercity/v1/validatePickup:
     post:
       summary: Validate driver's chosen pickup location if its in within the wilaya. actual path will be <baseurl>/b2c/driver/
