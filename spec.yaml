@@ -571,7 +571,22 @@ paths:
                                   type: number
                                 reviewCount:
                                   type: number
-
+                            riderPay:
+                              type: object
+                              properties:
+                                amount:
+                                  type: number 
+                                amountWithTax:
+                                  type: number              
+                                tax: 
+                                  type: array
+                                  items:
+                                    type: object    
+                                    properties:             
+                                      label:
+                                        type: string
+                                      amount:
+                                        type: number
               examples:
                 with-bookings:
                   summary: Trip with bookings
@@ -627,6 +642,12 @@ paths:
                       bookings:
                         - id: "6550f8a8e4b0a2f9c8b0e1a4"
                           seats: 2
+                          riderPay:
+                            amount: 850
+                            amountWithoutTax: 800
+                            tax:
+                              - label: "Stamp Duty"
+                                amount: 50
                           riderProfile:
                             id: "6550f8a8e4b0a2f9c8b0e1a5"
                             rider: "6550f8a8e4b0a2f9c8b0e1a5"
@@ -638,6 +659,9 @@ paths:
                             reviewCount: 10
                         - id: "6550f8a8e4b0a2f9c8b0e1a6"
                           seats: 1
+                          tax:
+                              - label: "Stamp Duty"
+                                amount: 50
                           riderProfile:
                             id: "6550f8a8e4b0a2f9c8b0e1a7"
                             rider: "6550f8a8e4b0a2f9c8b0e1a7"
