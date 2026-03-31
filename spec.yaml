@@ -700,7 +700,7 @@ paths:
                       estimatedPrice:
                         type: number
                         description: Estimated price based on given seats (if seats query param is provided). It includes rider taxes
-                      basePrice:
+                      basecost:
                         type: number
                         description: Used on rider side detail screen . Actual cost based on number of seats
                       appliedTaxesRider:
@@ -848,7 +848,7 @@ paths:
                       price: 800
                       tripCostWithTax: 850
                       estimatedPrice: 850
-                      basePrice: 800
+                      basecost: 800
                       tripCostBreakDown:
                         netEarning: 608
                         yassirFee: 160
@@ -932,7 +932,7 @@ paths:
                         lng: 4.850719
                       price: 2500
                       estimatedPrice: 2600
-                      basePrice: 2500
+                      basecost: 2500
                       maxSeats: 4
                       currency: "DZD"
                       currencyLabel: "DZD"
