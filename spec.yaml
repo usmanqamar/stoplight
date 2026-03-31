@@ -838,16 +838,17 @@ paths:
                         distance: 51997
                         departureTime: "2026-02-01T10:00:00.000Z"
                         lat: 31.021289
-                        lng: "-2.719016"
+                        lng: -2.719016
                       destination:
                         address: "Abalessa, Tamanrasset, Algérie"
                         arrivalTime: "2026-02-01T10:00:00.000Z"
                         city: "Tamanrasset"
                         lat: 22.893424
-                        lng: "4.850719"
+                        lng: 4.850719
                       price: 800
                       tripCostWithTax: 850
                       estimatedPrice: 850
+                      basePrice: 800
                       tripCostBreakDown:
                         netEarning: 608
                         yassirFee: 160
@@ -923,13 +924,15 @@ paths:
                         departureTime: "2026-02-01T10:00:00.000Z"
                         arrivalTime: "2026-02-01T10:00:00.000Z"
                         lat: 31.021289
-                        lng: "-2.719016"
+                        lng: -2.719016
                       destination:
                         address: "Abalessa, Tamanrasset, Algérie"
                         city: "Tamanrasset"
                         lat: 22.893424
-                        lng: "4.850719"
+                        lng: 4.850719
                       price: 2500
+                      estimatedPrice: 2600
+                      basePrice: 2500
                       maxSeats: 4
                       currency: "DZD"
                       currencyLabel: "DZD"
