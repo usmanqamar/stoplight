@@ -65,7 +65,7 @@ paths:
                 success:
                   summary: Trip canceled successfully
                   value:
-                    status: true
+                    success: true
                     message: Trip canceled successfully
         "400":
           description: Bad request - Invalid parameters or trip cannot be canceled
@@ -75,13 +75,13 @@ paths:
                 missing_trip_id:
                   summary: Missing trip ID
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: REQUIRED_FIELD_ERROR
                     errorMessage: Trip ID is required
                 missing_driver_id:
                   summary: Missing driver ID header
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: REQUIRED_FIELD_ERROR
                     errorMessage: Driver ID is required
         "403":
@@ -92,13 +92,13 @@ paths:
                 unauthorized:
                   summary: Not authorized to cancel trip
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: VALIDATION_ERROR
                     errorMessage: You are not authorized to perform this action
                 time_window:
                   summary: Cancellation time window passed
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: CANCEL_WINDOW_EXPIRED
                     errorMessage: Cannot cancel trip with bookings less than 2 hours before departure
         "404":
@@ -109,7 +109,7 @@ paths:
                 not_found:
                   summary: Trip not found
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: NOT_FOUND
                     errorMessage: Trip not found
         "500":
@@ -120,7 +120,7 @@ paths:
                 server_error:
                   summary: Internal server error
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: ERROR_CANCEL_TRIP
                     errorMessage: Error canceling the intercity trip
 
@@ -171,7 +171,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
+                  success:
                     type: boolean
                   trips:
                     type: array
@@ -263,7 +263,7 @@ paths:
                 upcoming-trips:
                   summary: Upcoming trips without pagination
                   value:
-                    status: true
+                    success: true
                     trips:
                       - id: "6550f8a8e4b0a2f9c8b0e1a3"
                         status: DRIVER_ASSIGNED
@@ -315,7 +315,7 @@ paths:
                 past-trips-paginated:
                   summary: Past trips with cursor-based pagination
                   value:
-                    status: true
+                    success: true
                     trips:
                       - id: "6550f8a8e4b0a2f9c8b0e1a8"
                         status: FINISHED
@@ -574,7 +574,7 @@ paths:
                 no-trips:
                   summary: No trips
                   value:
-                    status: true
+                    success: true
                     trips: []
         "400":
           description: Bad request, invalid parameters
@@ -584,13 +584,13 @@ paths:
                 invalid_type:
                   summary: Invalid type parameter
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: REQUIRED_FIELD_ERROR
                     errorMessage: Type must be either UPCOMING or PAST
                 missing_driver_id:
                   summary: Missing driver ID header
                   value:
-                    status: false
+                    success: false
                     errorMessageKey: REQUIRED_FIELD_ERROR
                     errorMessage: Driver ID is required
         "500":
