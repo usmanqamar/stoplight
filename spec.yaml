@@ -1264,6 +1264,17 @@ paths:
                     success: false
                     errorMessageKey: "CREATE_TRIP_ERROR"
                     errorMessage: "Error creating the trip"
+        '403':
+          description: Not allowed
+          content:
+            application/json:
+              examples:
+                create_error:
+                  summary: Example error response
+                  value:
+                    success: false
+                    errorMessageKey: "TIME_CONFLICT_ERROR"
+                    errorMessage: "Another trip at same time"
 
   /intercity/v1/cancel-booking:
     post:
