@@ -14,6 +14,104 @@ components:
       name: Authorization  # optional, for documentation
 
 paths:
+  /intercity/v1/checkSeats:
+    post:
+      summary: Checks the seats availability with new updated seats count. actual path will be <baseurl>/b2c/rider/
+      
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: rider_id
+          required: false
+          schema:
+            type: string
+          description: Rider ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tripId
+                - seats
+              properties:
+                tripId:
+                  type: string
+                  description: The ID of the trip to cancel
+                seats:
+                  type: number
+                  description: Number of seats
+            examples:
+              trip:
+                summary: Example
+                value:
+                  tripId: "6550f8a8e4b0a2f9c8b0e1a3"
+                  seats: 2
+      responses:
+        "200":
+          description: Trip seats check successfull
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                success:
+                  summary: Trip seats available
+                  value:
+                    success: true
+                    message: Trip seats available
+                error:
+                  summary: Trip seats not available
+                  value:
+                    success: false
+                    message: Trip seats not available
+        "400":
+          description: Bad request - Invalid parameters or trip cannot be canceled
+          content:
+            application/json:
+              examples:
+                missing_trip_id:
+                  summary: Missing trip ID
+                  value:
+                    success: false
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Trip ID is required
+                missing_seats:
+                  summary: Missing Seats
+                  value:
+                    success: false
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Seat is required
+        "404":
+          description: Trip not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  summary: Trip not found
+                  value:
+                    success: false
+                    errorMessageKey: NOT_FOUND
+                    errorMessage: Trip not found
+        "500":
+          description: Server error
+          content:
+            application/json:
+              examples:
+                server_error:
+                  summary: Internal server error
+                  value:
+                    success: false
+                    errorMessageKey: ERROR_CANCEL_TRIP
+                    errorMessage: Error canceling the intercity trip
+
   /intercity/v1/cancelTrip:
     post:
       summary: Cancel an intercity trip and all related bookings. actual path will be <baseurl>/b2c/driver/
@@ -123,7 +221,6 @@ paths:
                     success: false
                     errorMessageKey: ERROR_CANCEL_TRIP
                     errorMessage: Error canceling the intercity trip
-
   
   /intercity/v1/trips:
     get:
