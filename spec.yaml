@@ -14,19 +14,19 @@ components:
       name: Authorization  # optional, for documentation
 
 paths:
-  /intercity/v1/checkSeats:
+  /intercity/v1/checkTripConflict:
     post:
-      summary: Checks the seats availability with new updated seats count. actual path will be <baseurl>/b2c/rider/
+      summary: Checks the trip conflict. actual path will be <baseurl>/b2c/driver/
       
       security:
         - bearerAuth: []
       parameters:
         - in: header
-          name: rider_id
+          name: driver_id
           required: false
           schema:
             type: string
-          description: Rider ID
+          description: Driver ID
       requestBody:
         required: true
         content:
@@ -34,24 +34,19 @@ paths:
             schema:
               type: object
               required:
-                - tripId
-                - seats
+                - departureTime
               properties:
-                tripId:
+                departureTime:
                   type: string
-                  description: The ID of the trip to cancel
-                seats:
-                  type: number
-                  description: Number of seats
+               
             examples:
               trip:
                 summary: Example
                 value:
-                  tripId: "6550f8a8e4b0a2f9c8b0e1a3"
-                  seats: 2
+                  departureTime: "2026-02-10T08:00:00.000Z"
       responses:
         "200":
-          description: Trip seats check successfull
+          description: Trip conflict check successfull
           content:
             application/json:
               schema:
@@ -63,43 +58,27 @@ paths:
                     type: string
               examples:
                 success:
-                  summary: Trip seats available
+                  summary: Trip time available
                   value:
                     success: true
                     message: Trip seats available
                 error:
-                  summary: Trip seats not available
+                  summary: Trip time not available
                   value:
                     success: false
-                    message: Trip seats not available
+                    message: Trip time not available
         "400":
           description: Bad request - Invalid parameters or trip cannot be canceled
           content:
             application/json:
               examples:
-                missing_trip_id:
-                  summary: Missing trip ID
+                missing_time:
+                  summary: Missing departureTime
                   value:
                     success: false
                     errorMessageKey: REQUIRED_FIELD_ERROR
-                    errorMessage: Trip ID is required
-                missing_seats:
-                  summary: Missing Seats
-                  value:
-                    success: false
-                    errorMessageKey: REQUIRED_FIELD_ERROR
-                    errorMessage: Seat is required
-        "404":
-          description: Trip not found
-          content:
-            application/json:
-              examples:
-                not_found:
-                  summary: Trip not found
-                  value:
-                    success: false
-                    errorMessageKey: NOT_FOUND
-                    errorMessage: Trip not found
+                    errorMessage: Trip time is required
+               
         "500":
           description: Server error
           content:
@@ -109,8 +88,7 @@ paths:
                   summary: Internal server error
                   value:
                     success: false
-                    errorMessageKey: ERROR_CANCEL_TRIP
-                    errorMessage: Error canceling the intercity trip
+                    errorMessageKey: ERROR_CHECK_TRIP_CONFLICT
 
   /intercity/v1/cancelTrip:
     post:
