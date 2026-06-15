@@ -35,8 +35,14 @@ paths:
               type: object
               required:
                 - departureTime
+                - pickup
+                - destination
               properties:
                 departureTime:
+                  type: string
+                pickup:
+                  type: string
+                destination:
                   type: string
                
             examples:
@@ -44,6 +50,8 @@ paths:
                 summary: Example
                 value:
                   departureTime: "2026-02-10T08:00:00.000Z"
+                  pickup: "2,1,0"
+                  destination: "2,1,0"
       responses:
         "200":
           description: Trip conflict check successfull
@@ -61,12 +69,8 @@ paths:
                   summary: Trip time available
                   value:
                     success: true
-                    message: Trip seats available
-                error:
-                  summary: Trip time not available
-                  value:
-                    success: false
-                    message: Trip time not available
+                    message: Trip time available
+               
         "400":
           description: Bad request - Invalid parameters or trip cannot be canceled
           content:
@@ -79,6 +83,19 @@ paths:
                     errorMessageKey: REQUIRED_FIELD_ERROR
                     errorMessage: Trip time is required
                
+        "403":
+          description: Time conflict found
+          content:
+            application/json:
+              examples:
+                missing_time:
+                  summary: Missing departureTime
+                  value:
+                    success: false
+                    errorMessageKey: TIME_CONFLICT_ERROR
+                    errorMessage: You have an overlapping trip scheduled for this time
+               
+        
         "500":
           description: Server error
           content:
