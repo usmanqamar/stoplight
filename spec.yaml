@@ -41,21 +41,18 @@ paths:
                 departureTime:
                   type: string
                 pickup:
-                type: object
-                properties:
-                  address:
-                    type: string
-                  city:
-                    type: string
-                  distance:
-                    type: number
-                  departureTime:
-                    type: string
-                    format: date-time
-                  lat:
-                    type: number
-                  lng:
-                    type: number
+                  type: object
+                  description: Pickup location path
+                  properties:
+                    lat:
+                      type: number
+                      description: Latitude of the pickup location
+                    lng:
+                      type: number
+                      description: Longitude of the pickup location
+                    path:
+                      type: string
+                      description: Level 1 path of the city (wilaya)
                 destination:
                   type: string
                
@@ -65,12 +62,9 @@ paths:
                 value:
                   departureTime: "2026-02-10T08:00:00.000Z"
                   pickup:
-                    address: Place des Martyrs, Algiers
-                    city: Algiers
-                    distance: 2500
-                    departureTime: "2026-02-10T08:00:00.000Z"
-                    lat: 36.7538
-                    lng: 3.0588
+                    lat: 36.752887
+                    lng: 3.042048
+                    path: "0,192756,1258648"
                   destination: "2,1,0"
       responses:
         "200":
