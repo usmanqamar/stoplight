@@ -14,6 +14,234 @@ components:
       name: Authorization  # optional, for documentation
 
 paths:
+  /intercity/v1/trips/history/{tripId}:
+    get:
+      summary: Get detailed information about a specific intercity trip for a rider. actual path will be <baseurl>/b2c/rider/
+      description: Retrieves detailed information about a single intercity trip. Includes ownership verification to ensure the rider has access to the trip.
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the trip
+
+        - name: app_language
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Preferred language for the response (e.g. en, fr, ar)
+
+      responses:
+        "200":
+          description: Successful response with trip details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  trip:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "507f1f77bcf86cd799439011"
+                      tripUid:
+                        type: string
+                        example: "ABC123"
+                      status:
+                        type: string
+                        enum:
+                          - COMPLETED
+                          - SCHEDULED
+                          - CANCELED
+                        example: "SCHEDULED"
+
+                      pickup:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                            example: "123 Main St"
+                          city:
+                            type: string
+                            example: "Blida"
+                          departureTime:
+                            type: string
+                            format: date-time
+                            example: "2024-06-10T09:00:00Z"
+
+                      destination:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                            example: "456 Elm St"
+                          city:
+                            type: string
+                            example: "Oran"
+                          arrivalTime:
+                            type: string
+                            format: date-time
+                            example: "2024-06-10T12:00:00Z"
+
+                      price:
+                        type: number
+                        example: 2500
+                      seats:
+                        type: number
+                        example: 2
+                      riderPay:
+                        type: object
+                        properties:
+                          amount:
+                            type: number 
+                            example: 2000
+                              
+                          amountWithTax:
+                            type: number 
+                            example: 2500             
+                          tax: 
+                            type: array
+                            items:
+                              type: object    
+                              properties:             
+                                label:
+                                  type: string
+                                  example: TAX1
+                                amount:
+                                  type: number
+                                  example: 500
+                      currency:
+                        type: string
+                        example: "DZD"
+
+                      currencyLabel:
+                        type: string
+                        example: "DA"
+
+                      remainingSeats:
+                        type: number
+                        example: 2
+
+                      maxSeats:
+                        type: number
+                        example: 4
+
+                      driverProfile:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "driver123"
+                          name:
+                            type: string
+                            example: "John Doe"
+                          phone:
+                            type: string
+                            example: "+213600000000"
+                          rating:
+                            type: number
+                            example: 4.8
+                          picture:
+                            type: string
+                            example: "https://example.com/profile.jpg"
+                          car:
+                            type: object
+                            properties:
+                              make:
+                                type: string
+                              model:
+                                type: string
+                              color:
+                                type: string
+                              plateNumber:
+                                type: string
+
+        "400":
+          description: Bad request - missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  errorMessageKey:
+                    type: string
+                  errorMessage:
+                    type: string
+              examples:
+                missing_rider_id:
+                  summary: Missing rider_id header
+                  value:
+                    success: false
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Rider ID is required
+
+                missing_trip_id:
+                  summary: Missing tripId parameter
+                  value:
+                    success: false
+                    errorMessageKey: REQUIRED_FIELD_ERROR
+                    errorMessage: Trip ID is required
+
+        "403":
+          description: Forbidden - rider does not have access to this trip
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  errorMessageKey:
+                    type: string
+                    example: UNAUTHORIZED_ACCESS
+                  errorMessage:
+                    type: string
+                    example: You are not authorized to view this trip
+
+        "404":
+          description: Trip not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  errorMessageKey:
+                    type: string
+                    example: TRIP_NOT_FOUND
+                  errorMessage:
+                    type: string
+                    example: Trip not found
+
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  errorMessageKey:
+                    type: string
+                    example: ERROR_FETCH_RIDER_TRIP_DETAIL
+                  errorMessage:
+                    type: string
+                    example: Error fetching rider trip detail
+
   /intercity/v1/checkTripConflict:
     post:
       summary: Checks the trip conflict. actual path will be <baseurl>/b2c/driver/
