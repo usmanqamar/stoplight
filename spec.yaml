@@ -155,12 +155,16 @@ paths:
                             properties:
                               make:
                                 type: string
+                                example: Toyota
                               model:
                                 type: string
+                                example: MarkX
                               color:
                                 type: string
+                                example: White
                               plateNumber:
                                 type: string
+                                example: ABC-123
 
         "400":
           description: Bad request - missing or invalid parameters
