@@ -95,6 +95,9 @@ paths:
                       seats:
                         type: number
                         example: 2
+                      isPrivate:
+                        type: boolean
+                        example: true
                       riderPay:
                         type: object
                         properties:
@@ -967,6 +970,12 @@ paths:
           schema:
             type: string
           description: Number of seats to estimate tax value
+        - in: query
+          name: isPrivate
+          required: false
+          schema:
+            type: boolean
+          description: Rider is looking for private
         - in: header
           name: driver_id
           required: false
@@ -2278,6 +2287,9 @@ paths:
                 seats:
                   type: number
                   description: Number of seats required
+                isPrivate:
+                  type: boolean
+                  description: If rider is looking for empty car
                 location:
                   type: object
                   description: Location of user
@@ -2296,6 +2308,7 @@ paths:
                   pickup: "0,192756,1258647"
                   destination: "0,192756,1258647"
                   seats: 2
+                  isPrivate: true
                   location:
                     lat: 3.123
                     lng: 2.123
@@ -2668,6 +2681,8 @@ paths:
                 seats:
                   type: number
                   description: number of seats to book
+                isPrivate:
+                  type: boolean
               
             
             examples:
