@@ -95,9 +95,7 @@ paths:
                       seats:
                         type: number
                         example: 2
-                      isPrivate:
-                        type: boolean
-                        example: true
+
                       riderPay:
                         type: object
                         properties:
@@ -168,7 +166,40 @@ paths:
                               plateNumber:
                                 type: string
                                 example: ABC-123
-
+                      bookings:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            isPrivate:
+                              type: boolean
+                            seats:
+                              type: number
+                            riderProfile:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                rider:
+                                  type: string
+                                email:
+                                  type: string
+                                fullName:
+                                  type: string
+                                firstName:
+                                  type: string
+                                lastName:
+                                  type: string
+                                gender:
+                                  type: string
+                                phone:
+                                  type: string
+                                rating:
+                                  type: number
+                                reviewCount:
+                                  type: number
         "400":
           description: Bad request - missing or invalid parameters
           content:
@@ -1889,6 +1920,8 @@ paths:
                           properties:
                             id: 
                               type: string
+                            isPrivate:
+                              type: string
                             riderProfile:
                               type: object
                               properties:
@@ -1973,6 +2006,59 @@ paths:
                         bookings:
                           - id: "123456788"
                             seats: 1
+                            isPrivate: false
+                            riderProfile: 
+                              id: ""
+                              fullName: "Usman"
+                              gender: "male"
+                              rating: 4
+                              firstName: "Usman"
+                              lastName: "Qamar"
+                              reviewCount: 10
+                              phone: "+12345678"
+                              
+                          
+                        driverProfile: 
+                          id: "driver001"
+                          phone: "+213600000000"
+                          picture: "https://example.com/driver001.jpg"
+                          name: "John Doe"
+                          rating: 4.8
+                          car:    
+                            make: "Toyota"
+                            model: "Corolla"
+                            color: "Blue"
+                            immat: "123-XYZ"
+              
+                with-private:
+                  summary: Example with private ride
+                  value:
+                    success: true
+                    trip:
+                        id: "trip001"
+                        pickup:
+                          lat: 36.47
+                          lng: 3.09
+                          address: "123 Main St"
+                          city: "Blida"
+                          distance: 1200
+                          departureTime: "2024-06-10T09:30:00Z"
+                        destination:
+                          address: "456 Elm St"
+                          city: "Oran"
+                          arrivalTime: "2024-06-10T09:30:00Z"
+                          lat: 36.74
+                          lng: 3.09
+
+                        paymentMethod: "CASH"
+                        price: 2500
+                        currency: "DZD"
+                        currencyLabel: "DZ"
+                        remainingSeats: 2
+                        bookings:
+                          - id: "123456788"
+                            seats: 1
+                            isPrivate: true
                             riderProfile: 
                               id: ""
                               fullName: "Usman"
@@ -2687,9 +2773,15 @@ paths:
             
             examples:
               book-request:
-                summary: Example search request
+                summary: Book Private
                 value:
                   tripId: "68e51fbe690abd6a343a8c45"
+                  isPrivate: true
+              book-request-2:
+                summary: Book non private
+                value:
+                  tripId: "68e51fbe690abd6a343a8c45"
+                  isPrivate: false
                   seats: 2
 
       security:
