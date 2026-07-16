@@ -92,9 +92,7 @@ paths:
                       price:
                         type: number
                         example: 2500
-                      seats:
-                        type: number
-                        example: 2
+                  
 
                       riderPay:
                         type: object
