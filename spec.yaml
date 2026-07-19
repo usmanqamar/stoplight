@@ -99,11 +99,11 @@ paths:
                         properties:
                           amount:
                             type: number 
-                            example: 2000
+                            example: 2500
                               
-                          amountWithTax:
+                          amountWithoutTax:
                             type: number 
-                            example: 2500             
+                            example: 2000             
                           tax: 
                             type: array
                             items:
